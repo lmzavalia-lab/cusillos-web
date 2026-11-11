@@ -205,69 +205,99 @@
   });
 
   /* ---------- Programas de sustentabilidad: lista + foto grande ---------- */
+  // Cada proyecto se muestra PROGRAM_MS y, mientras tanto, sus fotos cambian cada PHOTO_MS.
+  // Las flechas pasan las fotos del proyecto; después de la última siguen al próximo proyecto.
+  // Con el mouse encima se frena el cambio de proyecto (para leer), pero las fotos siguen.
   const showcase = document.querySelector("[data-showcase]");
   if (showcase) {
+    const PROGRAM_MS = 10000;
+    const PHOTO_MS = 3500;
+    const TICK = 100;
     const items = [...showcase.querySelectorAll("[data-showcase-item]")];
-    const photos = [...showcase.querySelectorAll(".showcase__stage img")];
+    const allPhotos = [...showcase.querySelectorAll(".showcase__stage img")];
+    const progOf = (it) => it.querySelector(".showcase__title button").id.replace("sc-tab-", "");
+    const photosOf = items.map((it) => {
+      const own = allPhotos.filter((ph) => ph.dataset.program === progOf(it));
+      return own.length ? own : [allPhotos[items.indexOf(it)]].filter(Boolean);
+    });
     const chip = showcase.querySelector(".showcase__chip");
     const chipName = showcase.querySelector("[data-showcase-name]");
     const chipCount = showcase.querySelector("[data-showcase-count]");
-    const SC_DURATION = 4000;
     const total = items.length;
-    showcase.style.setProperty("--sc-dur", SC_DURATION + "ms");
+    showcase.style.setProperty("--sc-dur", PROGRAM_MS + "ms");
 
-    let index = 0, timer = null, remaining = SC_DURATION, startedAt = 0;
-    let visible = false, hovering = false;
-
+    let index = 0, photo = 0;
+    let programElapsed = 0, photoElapsed = 0;
+    let visible = false, hovering = false, ticker = null, last = 0;
+    const pad = (n) => String(n).padStart(2, "0");
     const nameOf = (n) => items[n].querySelector(".showcase__title span").textContent.trim();
-    const updateChip = (animate) => {
-      chipCount.textContent = String(index + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
-      if (!animate) { chipName.textContent = nameOf(index); return; }
+
+    const updateChip = (animateName) => {
+      chipCount.textContent = pad(photo + 1) + " / " + pad(photosOf[index].length);
+      if (!animateName) { chipName.textContent = nameOf(index); return; }
       chip.classList.add("is-swapping");
       setTimeout(() => { chipName.textContent = nameOf(index); chip.classList.remove("is-swapping"); }, 250);
     };
 
-    const stop = () => { clearTimeout(timer); timer = null; };
-    const schedule = (ms) => {
-      stop();
-      if (!visible || hovering) { showcase.classList.add("is-paused"); return; }
-      showcase.classList.remove("is-paused");
-      startedAt = performance.now();
-      remaining = ms;
-      timer = setTimeout(() => select(index + 1), ms);
+    const showPhoto = () => {
+      const current = photosOf[index][photo];
+      allPhotos.forEach((ph) => {
+        if (ph === current) { ph.classList.remove("is-active"); void ph.offsetWidth; ph.classList.add("is-active"); }
+        else ph.classList.remove("is-active");
+      });
+      photoElapsed = 0;
+      updateChip(false);
     };
-    const pause = () => {
-      if (timer) remaining = Math.max(0, remaining - (performance.now() - startedAt));
-      stop();
-      showcase.classList.add("is-paused");
-    };
-    const resume = () => { showcase.classList.remove("is-paused"); schedule(remaining); };
 
-    const select = (n, restartPhoto) => {
+    const selectProgram = (n, startPhoto = 0) => {
+      const changed = ((n + total) % total) !== index;
       index = (n + total) % total;
+      photo = (startPhoto + photosOf[index].length) % photosOf[index].length;
       items.forEach((it, k) => {
         const on = k === index;
         it.classList.toggle("is-active", on);
         it.querySelector(".showcase__title button").setAttribute("aria-expanded", String(on));
       });
-      photos.forEach((ph, k) => {
-        if (k === index && restartPhoto) { ph.classList.remove("is-active"); void ph.offsetWidth; }
-        ph.classList.toggle("is-active", k === index);
-      });
-      // reinicia la línea de progreso
+      // reinicia la línea de progreso del proyecto
       const bar = items[index].querySelector(".showcase__bar");
       bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = "";
-      updateChip(true);
-      remaining = SC_DURATION;
-      schedule(SC_DURATION);
+      programElapsed = 0;
+      showPhoto();
+      if (changed) updateChip(true);
     };
 
+    const step = (dir) => {
+      const count = photosOf[index].length;
+      if (dir > 0 && photo === count - 1) return selectProgram(index + 1, 0);
+      if (dir < 0 && photo === 0) return selectProgram(index - 1, -1);
+      photo += dir;
+      showPhoto();
+    };
+
+    const running = () => visible && !document.hidden;
+    const tick = () => {
+      const now = performance.now();
+      const dt = Math.min(now - last, 500);
+      last = now;
+      if (!running()) return;
+      photoElapsed += dt;
+      if (!hovering) programElapsed += dt;
+      if (programElapsed >= PROGRAM_MS) { selectProgram(index + 1); return; }
+      if (photoElapsed >= PHOTO_MS && photosOf[index].length > 1) {
+        photo = (photo + 1) % photosOf[index].length;
+        showPhoto();
+      }
+    };
+    const syncPaused = () => showcase.classList.toggle("is-paused", hovering || !running());
+    const start = () => { if (!ticker) { last = performance.now(); ticker = setInterval(tick, TICK); } syncPaused(); };
+    const halt = () => { clearInterval(ticker); ticker = null; syncPaused(); };
+
     items.forEach((it, k) => {
-      it.addEventListener("click", () => { if (k !== index) select(k); });
+      it.addEventListener("click", () => { if (k !== index) selectProgram(k); });
       it.querySelector(".showcase__title button").addEventListener("keydown", (e) => {
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
           e.preventDefault();
-          select(index + (e.key === "ArrowDown" ? 1 : -1));
+          selectProgram(index + (e.key === "ArrowDown" ? 1 : -1));
           items[index].querySelector(".showcase__title button").focus();
         }
       });
@@ -279,13 +309,13 @@
       prevBtn.setAttribute("aria-label", t("showcase.prev"));
       nextBtn.setAttribute("aria-label", t("showcase.next"));
     };
-    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); select(index - 1); });
-    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); select(index + 1); });
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); step(-1); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); step(1); });
     labelArrows();
-    document.addEventListener("langchange", labelArrows);
+    document.addEventListener("langchange", () => { labelArrows(); updateChip(false); });
 
-    showcase.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; pause(); } });
-    showcase.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hovering = false; resume(); } });
+    showcase.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; syncPaused(); } });
+    showcase.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hovering = false; syncPaused(); } });
 
     // Deslizar la foto con el dedo en el celular
     const stage = showcase.querySelector(".showcase__stage");
@@ -293,19 +323,18 @@
     stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
     stage.addEventListener("touchend", (e) => {
       const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) select(index + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
     });
 
     let seen = false;
     new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible && !seen) { seen = true; select(index, true); return; }
-      if (visible) resume(); else pause();
+      if (visible && !seen) { seen = true; selectProgram(0); }
+      if (visible) start(); else halt();
     }, { threshold: 0.3 }).observe(showcase);
-    document.addEventListener("visibilitychange", () => (document.hidden ? pause() : resume()));
-    document.addEventListener("langchange", () => updateChip(false));
+    document.addEventListener("visibilitychange", syncPaused);
     updateChip(false);
-    pause();
+    syncPaused();
   }
 
   /* ---------- Volver arriba ---------- */
