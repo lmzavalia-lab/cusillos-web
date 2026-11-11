@@ -15,7 +15,6 @@
     "meta.description": "Agribusiness from Tucumán founded in 1997. Certified production of soybean, corn, wheat, dry beans, chickpea and rapeseed in Salta, Santiago del Estero and Tucumán.",
     "skip": "Skip to content",
     "logo.home": "Cusillos S.A., back to top",
-    "logo.garmat": "Garmat, partner company",
     "lang.label": "Language",
 
     "nav.label": "Main",
@@ -30,6 +29,7 @@
     "hero.fact1": "<strong>Since 1997</strong> in agricultural production",
     "hero.fact3": "<strong>RTRS and FSA certified · CREA members</strong>",
 
+    "about.group": "Cusillos and Garmat",
     "about.title": "We are an agribusiness that creates opportunities for the sustainable growth of its shareholders and its community.",
     "about.p1": "Founded in 1997 by a group of agronomists, Cusillos SA now operates with a professional board and stable teams in each production area.",
     "about.p2": "Together with Garmat SA, we see farming as a long-term business: in the short term the risk is high; in the long term, it tends toward zero.",
@@ -146,7 +146,7 @@
     "certs.fsa.4": "Professional management and economic viability of the farm",
 
     "networks.label": "We are also part of",
-    "networks.crea": "We belong to a CREA group, where farmers and advisors share experience and information to improve production and the management of each business.",
+    "networks.crea": "For 30 years we have been part of the CREA San Patricio group, where farmers and advisors share experience and information to improve production and the management of each business.",
     "networks.bff": "We are part of the network of independent farmers through which Bayer promotes and showcases regenerative agriculture practices on real farms.",
 
     "report.eyebrow": "Sustainability magazines",

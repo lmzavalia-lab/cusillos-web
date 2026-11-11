@@ -26,7 +26,7 @@
   document.addEventListener("click", (e) => {
     if (nav.classList.contains("is-open") && !header.contains(e.target)) setMenu(false);
   });
-  window.matchMedia("(min-width: 1280px)").addEventListener("change", (m) => { if (m.matches) setMenu(false); });
+  window.matchMedia("(min-width: 1081px)").addEventListener("change", (m) => { if (m.matches) setMenu(false); });
   document.addEventListener("langchange", () => setMenu(nav.classList.contains("is-open")));
 
   /* ---------- Link activo según la sección ---------- */

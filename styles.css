@@ -177,10 +177,6 @@ html { scrollbar-color: var(--teal) transparent; }
 .header__logo { display: block; flex-shrink: 0; }
 .header__logo img { width: 84px; height: auto; transition: width 240ms var(--ease-out); }
 .header.is-scrolled .header__logo img { width: 72px; }
-.header__partner { display: flex; align-items: center; flex-shrink: 0; margin-left: var(--s-5); margin-right: auto; padding-left: var(--s-5); border-left: 1px solid var(--line); height: 44px; transition: height 240ms var(--ease-out); }
-.header__partner img { width: auto; height: 38px; transition: height 240ms var(--ease-out); }
-.header.is-scrolled .header__partner { height: 38px; }
-.header.is-scrolled .header__partner img { height: 32px; }
 
 .nav { display: flex; align-items: center; gap: clamp(20px, 2.6vw, 40px); }
 .nav a { position: relative; font-size: 15px; font-weight: 500; color: var(--ink); text-decoration: none; padding-block: 8px; }
@@ -265,6 +261,8 @@ html { scrollbar-color: var(--teal) transparent; }
    ========================================================================== */
 .intro { row-gap: var(--s-8); align-items: end; }
 .intro__head { grid-column: 1 / span 7; }
+.intro__title { font-size: clamp(36px, 4.4vw, 56px); letter-spacing: -0.02em; }
+.intro__lead { margin-top: var(--s-5); font-family: var(--font-head); font-size: clamp(20px, 1.9vw, 26px); font-weight: 500; line-height: 1.4; color: var(--ink-soft); max-width: 30ch; text-wrap: balance; }
 .intro__body { grid-column: 9 / span 4; display: grid; gap: var(--s-4); color: var(--ink-soft); font-size: 16px; line-height: 1.75; padding-bottom: 6px; }
 
 /* ---------- Pilares ---------- */
@@ -719,7 +717,7 @@ html { scrollbar-color: var(--teal) transparent; }
 }
 
 /* Menú con botón de tres rayitas cuando no entra en una línea */
-@media (max-width: 1279px) {
+@media (max-width: 1080px) {
   .nav-toggle { display: block; }
   .lang { margin-left: auto; margin-right: var(--s-2); padding-left: 0; border-left: 0; }
   .nav {
@@ -739,8 +737,6 @@ html { scrollbar-color: var(--teal) transparent; }
 @media (max-width: 860px) {
   :root { --header-h: 72px; }
   .header__logo img, .header.is-scrolled .header__logo img { width: 64px; }
-  .header__partner { margin-left: var(--s-3); padding-left: var(--s-3); height: 36px; }
-  .header__partner img, .header.is-scrolled .header__partner img { height: 30px; }
   .hero { min-height: min(calc(100svh - var(--header-h)), 760px); justify-content: flex-end; }
   .hero::before {
     background:
@@ -794,8 +790,6 @@ html { scrollbar-color: var(--teal) transparent; }
 
 @media (max-width: 420px) {
   .header__logo img, .header.is-scrolled .header__logo img { width: 56px; }
-  .header__partner { margin-left: var(--s-2); padding-left: var(--s-2); height: 30px; }
-  .header__partner img, .header.is-scrolled .header__partner img { height: 25px; }
   .hero__actions .btn { width: 100%; justify-content: center; }
   .form .btn { width: 100%; justify-content: center; }
   .carousel { aspect-ratio: 4 / 3; }
