@@ -15,6 +15,7 @@
     "meta.description": "Agribusiness from Tucumán founded in 1997. Certified production of soybean, corn, wheat, dry beans, chickpea and rapeseed in Salta, Santiago del Estero and Tucumán.",
     "skip": "Skip to content",
     "logo.home": "Cusillos S.A., back to top",
+    "logo.garmat": "Garmat, partner company",
     "lang.label": "Language",
 
     "nav.label": "Main",
