@@ -284,35 +284,37 @@
       data._replyto = data.correo;
       if (window.i18n && window.i18n.lang === "en") data.idioma = "Inglés";
 
-      // El servicio de envío a veces tarda mucho en responder aunque el mensaje
-      // llega igual. Si no contesta en WAIT_MS damos el envío por hecho y la
-      // petición sigue en segundo plano (keepalive: sobrevive aunque se cierre la página).
-      const WAIT_MS = 4000;
-      const request = fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
-        method: "POST",
-        keepalive: true,
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
-      }).then(async (res) => {
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || String(json.success) === "false") throw new Error(json.message || "error " + res.status);
-        return "ok";
-      });
-      request.catch((err) => console.warn("[contacto] Respuesta del servicio:", err.message));
+      // FormSubmit a veces tarda más de un minuto en contestar. Esperamos la respuesta
+      // real (sin dar el envío por hecho) y avisamos que puede demorar.
+      const TIMEOUT_MS = 120000;
+      const ctrl = new AbortController();
+      const slow = setTimeout(() => setStatus(t("form.slow")), 6000);
+      const giveUp = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 
-      const showOk = () => {
+      try {
+        const res = await fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+          method: "POST",
+          signal: ctrl.signal,
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || String(json.success) !== "true") throw new Error(json.message || "error " + res.status);
         form.reset();
         setStatus("");
         openModal("ok", t("modal.ok.title"), t("modal.ok.text"));
-      };
-
-      try {
-        const result = await Promise.race([request, new Promise((r) => setTimeout(() => r("pending"), WAIT_MS))]);
-        showOk(result);
       } catch (err) {
+        console.warn("[contacto] El envío falló:", err.message);
         setStatus("");
-        openModal("error", t("modal.err.title"), t("modal.err.text"));
+        // Para no perder lo que escribió: WhatsApp y correo con el mensaje ya cargado
+        const texto = `${data.nombre}${data.empresa ? " (" + data.empresa + ")" : ""}: ${data.mensaje}`;
+        const wa = "https://wa.me/5493813983953?text=" + encodeURIComponent(texto);
+        const mail = "mailto:cusillos@cusillos.com.ar?subject=" + encodeURIComponent("Consulta desde la web") +
+          "&body=" + encodeURIComponent(data.mensaje + "\n\n" + data.nombre + (data.empresa ? " · " + data.empresa : "") + " · " + data.correo);
+        openModal("error", t("modal.err.title"), t("modal.err.alt", { wa, mail }));
       } finally {
+        clearTimeout(slow);
+        clearTimeout(giveUp);
         form.classList.remove("is-sending");
       }
     });
@@ -394,6 +396,7 @@
       jobs.classList.add("is-sending");
       status.textContent = t("jobs.sending");
       status.className = "form__status";
+      setTimeout(() => { if (jobs.classList.contains("is-sending")) status.textContent = t("jobs.slow"); }, 6000);
     });
     window.addEventListener("pageshow", () => jobs.classList.remove("is-sending"));
   }

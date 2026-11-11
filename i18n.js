@@ -32,7 +32,7 @@
     "about.group": "Cusillos and Garmat",
     "about.title": "We are an agribusiness that creates opportunities for the sustainable growth of its shareholders and its community.",
     "about.p1": "Founded in 1997 by a group of agronomists, Cusillos SA now operates with a professional board and stable teams in each production area.",
-    "about.p2": "Together with Garmat SA, we see farming as a long-term business: in the short term the risk is high; in the long term, it tends toward zero.",
+    "about.p2": "We see farming as a long-term business: in the short term the risk is high; in the long term, it tends toward zero.",
 
     "pillars.label": "Who we are",
     "pillars.1.t": "Resilient",
@@ -195,6 +195,9 @@
     "form.send": "Send message",
     "form.check": "Please check the highlighted fields.",
     "form.sending": "Sending…",
+    "form.slow": "Still sending… it can take up to a minute. Please don’t close the page.",
+    "jobs.slow": "Still sending your application… it can take up to a minute. Please don’t close the page.",
+    "modal.err.alt": 'The form service isn’t responding right now. You can send us the same message on <a href="{wa}" target="_blank" rel="noopener">WhatsApp</a> or by <a href="{mail}">email</a>; it’s already filled in.',
 
     "modal.ok.title": "Message sent",
     "modal.ok.text": "Thank you for writing to us. We’ll be in touch shortly.",
@@ -226,6 +229,9 @@
     "jobs.ok.text": "Gracias por tu interés en Cusillos. Si se abre una búsqueda que coincide con tu perfil, te vamos a contactar.",
     "form.check": "Revisá los campos marcados.",
     "form.sending": "Enviando…",
+    "form.slow": "Seguimos enviando… puede tardar hasta un minuto. No cierres la página.",
+    "jobs.slow": "Seguimos enviando tu postulación… puede tardar hasta un minuto. No cierres la página.",
+    "modal.err.alt": 'El servicio de formularios no está respondiendo. Podés mandarnos el mismo mensaje por <a href="{wa}" target="_blank" rel="noopener">WhatsApp</a> o por <a href="{mail}">correo</a>: ya queda escrito.',
     "modal.ok.title": "Mensaje enviado",
     "modal.ok.text": "Gracias por escribirnos. Nos pondremos en contacto a la brevedad.",
     "modal.err.title": "No pudimos enviar el mensaje",

@@ -112,6 +112,8 @@ html { scrollbar-color: var(--teal) transparent; }
   color: var(--teal); margin-bottom: var(--s-5);
 }
 .eyebrow::before { content: "//"; color: var(--orange); letter-spacing: 0.05em; }
+.eyebrow { flex-wrap: wrap; }
+.eyebrow__sep { color: var(--orange); letter-spacing: 0.05em; }
 .eyebrow--light { color: #fff; }
 .eyebrow--light::before { color: var(--gold); }
 
@@ -261,8 +263,6 @@ html { scrollbar-color: var(--teal) transparent; }
    ========================================================================== */
 .intro { row-gap: var(--s-8); align-items: end; }
 .intro__head { grid-column: 1 / span 7; }
-.intro__title { font-size: clamp(36px, 4.4vw, 56px); letter-spacing: -0.02em; }
-.intro__lead { margin-top: var(--s-5); font-family: var(--font-head); font-size: clamp(20px, 1.9vw, 26px); font-weight: 500; line-height: 1.4; color: var(--ink-soft); max-width: 30ch; text-wrap: balance; }
 .intro__body { grid-column: 9 / span 4; display: grid; gap: var(--s-4); color: var(--ink-soft); font-size: 16px; line-height: 1.75; padding-bottom: 6px; }
 
 /* ---------- Pilares ---------- */
