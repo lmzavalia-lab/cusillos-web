@@ -121,7 +121,7 @@
 
     "zones.eyebrow": "Where we farm",
     "zones.title": "Our operations in Northern Argentina.",
-    "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, but our operations are centred at these locations:",
+    "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, with our operations centred at these locations:",
     "zones.medialuna": "Provincial Route 4 · Pellegrini, Santiago del Estero",
     "zones.office": "Head office",
     "zones.note": "The orange dots mark the main farmstead of each operation. Illustrative map, locations are approximate.",
