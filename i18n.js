@@ -172,13 +172,6 @@
 
   const LANGS = ["es", "en"];
   const ATTRS = ["alt", "aria-label", "content", "href"];
-  const STORE_KEY = "lang";
-
-  const store = {
-    get() { try { return localStorage.getItem(STORE_KEY); } catch { return null; } },
-    set(v) { try { localStorage.setItem(STORE_KEY, v); } catch { /* sin almacenamiento */ } },
-  };
-
   // Guarda el español original de cada elemento para poder volver a él
   const nodes = [...document.querySelectorAll("[data-i18n]")].map((el) => ({ el, key: el.dataset.i18n, es: el.innerHTML }));
   const attrNodes = [];
@@ -208,18 +201,13 @@
 
   const set = (next) => {
     apply(next);
-    store.set(lang);
     const url = new URL(location.href);
     url.searchParams.set("lang", lang);
     history.replaceState(history.state, "", url);
   };
 
-  // Idioma inicial: ?lang=en en la URL, la elección guardada o el idioma del navegador
-  const fromUrl = new URLSearchParams(location.search).get("lang");
-  const fromBrowser = (navigator.languages || [navigator.language || "es"])
-    .map((l) => String(l).slice(0, 2).toLowerCase())
-    .find((l) => LANGS.includes(l));
-  const initial = [fromUrl, store.get(), fromBrowser].find((l) => LANGS.includes(l)) || "es";
+  // Siempre abre en español; en inglés solo con la bandera o con un link ?lang=en
+  const initial = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "es";
 
   window.i18n = { t, set, get lang() { return lang; } };
   if (initial !== "es") apply(initial);
