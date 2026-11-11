@@ -199,12 +199,21 @@ html { scrollbar-color: var(--teal) transparent; }
 .nav { margin-left: auto; }
 .lang { display: flex; align-items: center; gap: 2px; margin-left: clamp(16px, 2vw, 28px); padding-left: clamp(12px, 1.6vw, 20px); border-left: 1px solid var(--line); }
 .lang__btn {
+  display: inline-flex; align-items: center; gap: 6px;
   min-width: 36px; min-height: 36px; padding: 0 6px; border: 0; border-radius: var(--radius); background: none; cursor: pointer;
   font: 600 13px/1 var(--font-body); letter-spacing: 0.08em; color: var(--ink-soft);
   transition: color 200ms var(--ease-out);
 }
 .lang__btn[aria-pressed="true"] { color: var(--teal); text-decoration: underline 2px var(--orange); text-underline-offset: 6px; }
-@media (hover: hover) and (pointer: fine) { .lang__btn:hover { color: var(--teal); } }
+.lang__flag {
+  width: 21px; height: 14px; flex-shrink: 0; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  opacity: 0.55; filter: saturate(0.6); transition: opacity 200ms var(--ease-out), filter 200ms var(--ease-out);
+}
+.lang__btn[aria-pressed="true"] .lang__flag { opacity: 1; filter: none; }
+@media (hover: hover) and (pointer: fine) {
+  .lang__btn:hover { color: var(--teal); }
+  .lang__btn:hover .lang__flag { opacity: 1; filter: none; }
+}
 
 .nav-toggle { display: none; position: relative; width: 44px; height: 44px; margin-right: -10px; background: none; border: 0; cursor: pointer; }
 .nav-toggle span {
