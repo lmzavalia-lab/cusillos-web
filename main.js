@@ -266,31 +266,42 @@
 
       form.classList.add("is-sending");
       setStatus("Enviando…");
-      const slowHint = setTimeout(() => setStatus("Enviando… puede tardar unos segundos, no cierres la página."), 5000);
       const data = Object.fromEntries(new FormData(form));
       data._replyto = data.correo;
 
-      try {
-        const res = await fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
-        });
+      // El servicio de envío a veces tarda mucho en responder aunque el mensaje
+      // llega igual. Si no contesta en WAIT_MS damos el envío por hecho y la
+      // petición sigue en segundo plano (keepalive: sobrevive aunque se cierre la página).
+      const WAIT_MS = 4000;
+      const request = fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data),
+      }).then(async (res) => {
         const json = await res.json().catch(() => ({}));
         if (!res.ok || String(json.success) === "false") throw new Error(json.message || "error " + res.status);
+        return "ok";
+      });
+      request.catch((err) => console.warn("[contacto] Respuesta del servicio:", err.message));
+
+      const showOk = () => {
         form.reset();
         setStatus("");
         openModal("ok", "Mensaje enviado", "Gracias por escribirnos. Nos pondremos en contacto a la brevedad.");
+      };
+
+      try {
+        const result = await Promise.race([request, new Promise((r) => setTimeout(() => r("pending"), WAIT_MS))]);
+        showOk(result);
       } catch (err) {
-        console.warn("[contacto] No se pudo enviar:", err.message);
         setStatus("");
         openModal(
           "error",
           "No pudimos enviar el mensaje",
-          'Probá de nuevo en unos minutos, o escribinos a <a href="mailto:cusillos@cusillos.com.ar">cusillos@cusillos.com.ar</a> o por <a href="https://wa.me/5493815430098" target="_blank" rel="noopener">WhatsApp</a>.'
+          'Probá de nuevo en unos minutos, o escribinos a <a href="mailto:cusillos@cusillos.com.ar">cusillos@cusillos.com.ar</a> o por <a href="https://wa.me/5493813983953" target="_blank" rel="noopener">WhatsApp</a>.'
         );
       } finally {
-        clearTimeout(slowHint);
         form.classList.remove("is-sending");
       }
     });
