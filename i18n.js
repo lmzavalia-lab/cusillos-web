@@ -33,6 +33,9 @@
     "about.p1": "Founded in 1997 by a group of agronomists, Cusillos SA now operates with a professional board and stable teams in each production area.",
     "about.p2": "Together with Garmat SA, we see farming as a long-term business: in the short term the risk is high; in the long term, it tends toward zero.",
 
+    "group.title": "One group, working together.",
+    "group.p": "Cusillos SA is the producing company and a shareholder of Garmat SA. Together they form a single group: we share the same vision, values and way of working, and we carry out every season together.",
+
     "pillars.label": "Who we are",
     "pillars.1.t": "Resilient",
     "pillars.1.p": "We adapt to different scenarios and to changes in the rules of the game.",
