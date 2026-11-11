@@ -212,7 +212,7 @@
     const chip = showcase.querySelector(".showcase__chip");
     const chipName = showcase.querySelector("[data-showcase-name]");
     const chipCount = showcase.querySelector("[data-showcase-count]");
-    const SC_DURATION = 7000;
+    const SC_DURATION = 4000;
     const total = items.length;
     showcase.style.setProperty("--sc-dur", SC_DURATION + "ms");
 
