@@ -388,33 +388,51 @@
     modal.addEventListener("click", (e) => { if (e.target === modal) close(); }); // clic fuera de la caja
   }
 
-  /* ---------- Formulario de contacto ---------- */
+  /* ---------- Formulario único (consultas, proveedores, CV, reclamos) ---------- */
   const form = document.getElementById("contact-form");
   if (form) {
     const status = form.querySelector(".form__status");
+    const motivo = form.elements.motivo;
+    const extra = form.querySelector("[data-extra]");
+    const company = form.querySelector("[data-company]");
+    const nameRow = form.querySelector("[data-row-name]");
+    const optional = form.querySelector("[data-optional]");
+    const fileInput = form.elements.attachment;
+    const fileBox = fileInput.closest(".file");
+    const fileName = fileBox.querySelector(".file__name");
+    const JOB = "Trabajá con nosotros";
+    const MAX_MB = 4;
+    const isJob = () => motivo.value === JOB;
+
     const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
-    const checks = {
-      nombre: (v) => v.trim().length > 1,
-      correo: emailOk,
-      mensaje: (v) => v.trim().length > 2,
+    const fileOk = () => {
+      const f = fileInput.files[0];
+      return !!f && f.size <= MAX_MB * 1024 * 1024 && /\.(pdf|docx?)$/i.test(f.name);
     };
-    const validateField = (input) => {
-      const test = checks[input.name];
-      if (!test) return true;
-      const ok = test(input.value);
-      const field = input.closest(".field");
-      field.classList.toggle("is-invalid", !ok);
-      input.setAttribute("aria-invalid", String(!ok));
+    const checks = {
+      nombre: (el) => el.value.trim().length > 1,
+      correo: (el) => emailOk(el.value),
+      mensaje: (el) => isJob() || el.value.trim().length > 2,
+      telefono: (el) => el.value.replace(/\D/g, "").length >= 6,
+      attachment: fileOk,
+    };
+    const active = () => Object.keys(checks).filter((n) => !form.elements[n].disabled);
+    const setInvalid = (el, bad) => {
+      const field = el.closest(".field");
+      field.classList.toggle("is-invalid", bad);
+      el.setAttribute("aria-invalid", String(bad));
       const err = field.querySelector(".field__error");
-      if (err) input.setAttribute("aria-describedby", err.id);
+      if (err) el.setAttribute("aria-describedby", err.id);
+    };
+    const validate = (el) => {
+      const ok = checks[el.name](el);
+      setInvalid(el, !ok);
       return ok;
     };
     Object.keys(checks).forEach((name) => {
-      const input = form.elements[name];
-      input.addEventListener("blur", () => { if (input.value) validateField(input); });
-      input.addEventListener("input", () => {
-        if (input.closest(".field").classList.contains("is-invalid")) validateField(input);
-      });
+      const el = form.elements[name];
+      el.addEventListener("blur", () => { if (el.value) validate(el); });
+      el.addEventListener("input", () => { if (el.closest(".field").classList.contains("is-invalid")) validate(el); });
     });
 
     const setStatus = (msg, type) => {
@@ -422,10 +440,47 @@
       status.className = "form__status" + (type ? " is-" + type : "");
     };
 
+    // Campos según el motivo elegido
+    const applyMotivo = () => {
+      const job = isJob();
+      extra.hidden = !job;
+      extra.querySelectorAll("input, select").forEach((el) => { el.disabled = !job; });
+      company.hidden = job;
+      form.elements.empresa.disabled = job;
+      nameRow.classList.toggle("form__row--single", job);
+      optional.hidden = !job;
+      form.elements.mensaje.rows = job ? 3 : 5;
+      form.querySelector('[data-send="msg"]').hidden = job;
+      form.querySelector('[data-send="job"]').hidden = !job;
+      if (!job) ["telefono", "attachment"].forEach((n) => setInvalid(form.elements[n], false));
+      setInvalid(form.elements.mensaje, false);
+      setStatus("");
+    };
+    motivo.addEventListener("change", applyMotivo);
+    applyMotivo();
+
+    // "Enviá tu CV" y otros links que eligen el motivo
+    document.querySelectorAll("[data-motivo]").forEach((a) =>
+      a.addEventListener("click", () => {
+        motivo.value = a.dataset.motivo;
+        applyMotivo();
+        setTimeout(() => form.elements.nombre.focus({ preventScroll: true }), reduceMotion ? 0 : 700);
+      })
+    );
+
+    const showFile = () => {
+      const f = fileInput.files[0];
+      fileBox.classList.toggle("has-file", !!f);
+      fileName.textContent = f ? `${f.name} · ${(f.size / 1024 / 1024).toFixed(1).replace(".", ",")} MB` : t("jobs.cv.empty");
+      if (f) validate(fileInput);
+    };
+    fileInput.addEventListener("change", showFile);
+    document.addEventListener("langchange", () => { if (fileInput.files[0]) showFile(); });
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const fields = Object.keys(checks).map((n) => form.elements[n]);
-      const results = fields.map(validateField);
+      const fields = active().map((n) => form.elements[n]);
+      const results = fields.map(validate);
       if (results.includes(false)) {
         fields[results.indexOf(false)].focus();
         setStatus(t("form.check"), "error");
@@ -433,29 +488,44 @@
       }
       if (form.elements._honey.value) return; // bot
 
+      const job = isJob();
+      const en = window.i18n && window.i18n.lang === "en";
       form.classList.add("is-sending");
-      setStatus(t("form.sending"));
-      const data = Object.fromEntries(new FormData(form));
-      data._replyto = data.correo;
-      if (window.i18n && window.i18n.lang === "en") data.idioma = "Inglés";
-
-      // Primero la función propia; si todavía no está configurada, FormSubmit
-      // (que a veces tarda más de un minuto: esperamos la respuesta real y avisamos).
-      const TIMEOUT_MS = 120000;
+      setStatus(t(job ? "jobs.sending" : "form.sending"));
+      const slow = setTimeout(() => setStatus(t(job ? "jobs.slow" : "form.slow")), 6000);
       const ctrl = new AbortController();
-      const slow = setTimeout(() => setStatus(t("form.slow")), 6000);
-      const giveUp = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+      const giveUp = setTimeout(() => ctrl.abort(), 120000);
+
+      const fd = new FormData(form);
+      fd.append("tipo", job ? "postulacion" : "contacto");
+      if (en) fd.append("idioma", "Inglés");
+      const data = Object.fromEntries([...fd.entries()].filter(([, v]) => typeof v === "string"));
+
+      const done = () => {
+        form.reset();
+        applyMotivo();
+        showFile();
+        openModal("ok", t(job ? "jobs.ok.title" : "modal.ok.title"), t(job ? "jobs.ok.text" : "modal.ok.text"));
+      };
 
       try {
-        const fd = new FormData();
-        Object.entries(data).forEach(([k, v]) => fd.append(k, v));
-        fd.append("tipo", "contacto");
-        if ((await sendViaApi(fd)) === "ok") {
-          form.reset();
-          setStatus("");
-          openModal("ok", t("modal.ok.title"), t("modal.ok.text"));
+        if ((await sendViaApi(fd, job ? 90000 : 45000)) === "ok") return done();
+
+        // Respaldo: FormSubmit
+        form.elements._subject.value = job ? `Nueva postulación · ${data.nombre}` : `${data.motivo} · ${data.nombre}`;
+        if (job) {
+          // FormSubmit solo acepta archivos con un envío común; vuelve con ?postulacion=ok
+          const back = new URL(location.pathname, location.origin);
+          back.searchParams.set("postulacion", "ok");
+          if (en) back.searchParams.set("lang", "en");
+          back.hash = "contacto";
+          form.elements._next.value = back.href;
+          form.classList.add("is-native"); // el navegador queda esperando a FormSubmit
+          HTMLFormElement.prototype.submit.call(form);
           return;
         }
+        data._subject = form.elements._subject.value;
+        data._replyto = data.correo;
         const res = await fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
           method: "POST",
           signal: ctrl.signal,
@@ -464,24 +534,29 @@
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok || String(json.success) !== "true") throw new Error(json.message || "error " + res.status);
-        form.reset();
-        setStatus("");
-        openModal("ok", t("modal.ok.title"), t("modal.ok.text"));
+        done();
       } catch (err) {
-        console.warn("[contacto] El envío falló:", err.message);
+        console.warn("[formulario] El envío falló:", err.message);
         setStatus("");
-        // Para no perder lo que escribió: WhatsApp y correo con el mensaje ya cargado
-        const texto = `${data.nombre}${data.empresa ? " (" + data.empresa + ")" : ""}: ${data.mensaje}`;
-        const wa = "https://wa.me/5493813983953?text=" + encodeURIComponent(texto);
-        const mail = "mailto:cusillos@cusillos.com.ar?subject=" + encodeURIComponent("Consulta desde la web") +
-          "&body=" + encodeURIComponent(data.mensaje + "\n\n" + data.nombre + (data.empresa ? " · " + data.empresa : "") + " · " + data.correo);
-        openModal("error", t("modal.err.title"), t("modal.err.alt", { wa, mail }));
+        if (job) {
+          openModal("error", t("jobs.err.title"), t("jobs.err.text"));
+        } else {
+          // Para no perder lo que escribió: WhatsApp y correo con el mensaje ya cargado
+          const texto = `${data.nombre}${data.empresa ? " (" + data.empresa + ")" : ""}: ${data.mensaje}`;
+          const wa = "https://wa.me/5493813983953?text=" + encodeURIComponent(texto);
+          const mail = "mailto:cusillos@cusillos.com.ar?subject=" + encodeURIComponent(data.motivo) +
+            "&body=" + encodeURIComponent(data.mensaje + "\n\n" + data.nombre + (data.empresa ? " · " + data.empresa : "") + " · " + data.correo);
+          openModal("error", t("modal.err.title"), t("modal.err.alt", { wa, mail }));
+        }
       } finally {
-        clearTimeout(slow);
         clearTimeout(giveUp);
-        form.classList.remove("is-sending");
+        if (!form.classList.contains("is-native")) {
+          clearTimeout(slow);
+          form.classList.remove("is-sending");
+        }
       }
     });
+    window.addEventListener("pageshow", () => form.classList.remove("is-sending", "is-native"));
   }
 
   /* ---------- Mapa de zonas: lista y pines se resaltan juntos ---------- */
@@ -498,96 +573,6 @@
     pinOf(id).addEventListener("pointerenter", () => hot(id, true));
     pinOf(id).addEventListener("pointerleave", () => hot(id, false));
   });
-
-  /* ---------- Formulario de empleo ---------- */
-  const jobs = document.getElementById("jobs-form");
-  if (jobs) {
-    const status = jobs.querySelector(".form__status");
-    const fileInput = jobs.elements.attachment;
-    const fileBox = fileInput.closest(".file");
-    const fileName = fileBox.querySelector(".file__name");
-    const MAX_MB = 4;
-    const fileOk = () => {
-      const f = fileInput.files[0];
-      return !!f && f.size <= MAX_MB * 1024 * 1024 && /\.(pdf|docx?)$/i.test(f.name);
-    };
-    const checks = {
-      nombre: (el) => el.value.trim().length > 1,
-      telefono: (el) => el.value.replace(/\D/g, "").length >= 6,
-      correo: (el) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim()),
-      attachment: fileOk,
-    };
-    const validate = (el) => {
-      const ok = checks[el.name](el);
-      const field = el.closest(".field");
-      field.classList.toggle("is-invalid", !ok);
-      el.setAttribute("aria-invalid", String(!ok));
-      return ok;
-    };
-    Object.keys(checks).forEach((name) => {
-      const el = jobs.elements[name];
-      el.addEventListener("blur", () => { if (el.value) validate(el); });
-      el.addEventListener("input", () => { if (el.closest(".field").classList.contains("is-invalid")) validate(el); });
-    });
-
-    const showFile = () => {
-      const f = fileInput.files[0];
-      fileBox.classList.toggle("has-file", !!f);
-      fileName.textContent = f ? `${f.name} · ${(f.size / 1024 / 1024).toFixed(1).replace(".", ",")} MB` : t("jobs.cv.empty");
-      if (f) validate(fileInput);
-    };
-    fileInput.addEventListener("change", showFile);
-    document.addEventListener("langchange", () => { if (fileInput.files[0]) showFile(); });
-
-    jobs.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const fields = Object.keys(checks).map((n) => jobs.elements[n]);
-      const results = fields.map(validate);
-      if (results.includes(false)) {
-        fields[results.indexOf(false)].focus();
-        status.textContent = t("form.check");
-        status.className = "form__status is-error";
-        return;
-      }
-      if (jobs.elements._honey.value) return; // bot
-
-      jobs.classList.add("is-sending");
-      status.textContent = t("jobs.sending");
-      status.className = "form__status";
-      const slow = setTimeout(() => { if (jobs.classList.contains("is-sending")) status.textContent = t("jobs.slow"); }, 6000);
-      const en = window.i18n && window.i18n.lang === "en";
-
-      try {
-        const fd = new FormData(jobs);
-        fd.append("tipo", "postulacion");
-        if (en) fd.append("idioma", "Inglés");
-        if ((await sendViaApi(fd, 90000)) === "ok") {
-          clearTimeout(slow);
-          jobs.reset();
-          showFile();
-          jobs.classList.remove("is-sending");
-          status.textContent = "";
-          openModal("ok", t("jobs.ok.title"), t("jobs.ok.text"));
-          return;
-        }
-        // Respaldo: FormSubmit solo acepta archivos con un envío común del formulario,
-        // que vuelve a esta página con ?postulacion=ok
-        const back = new URL(location.pathname, location.origin);
-        back.searchParams.set("postulacion", "ok");
-        if (en) back.searchParams.set("lang", "en");
-        back.hash = "empleo";
-        jobs.elements._next.value = back.href;
-        HTMLFormElement.prototype.submit.call(jobs);
-      } catch (err) {
-        console.warn("[postulación] El envío falló:", err.message);
-        clearTimeout(slow);
-        jobs.classList.remove("is-sending");
-        status.textContent = "";
-        openModal("error", t("jobs.err.title"), t("jobs.err.text"));
-      }
-    });
-    window.addEventListener("pageshow", () => jobs.classList.remove("is-sending"));
-  }
 
   // Vuelta del envío de la postulación
   const params = new URLSearchParams(location.search);

@@ -51,16 +51,16 @@ export async function POST(request) {
   if (tipo === "contacto") {
     const mensaje = get("mensaje");
     if (mensaje.length < 3) return json(400, { ok: false, error: "datos" });
-    subject = `Nuevo mensaje desde la web · ${nombre}`;
-    filas = [["Nombre", nombre], ["Empresa", get("empresa")], ["Correo", correo], ["Mensaje", mensaje], ["Idioma", idioma]];
+    const motivo = get("motivo") || "Consulta";
+    subject = `${motivo} · ${nombre} · desde la web`;
+    filas = [["Motivo", motivo], ["Nombre", nombre], ["Empresa", get("empresa")], ["Correo", correo], ["Mensaje", mensaje], ["Idioma", idioma]];
   } else {
     const cv = form.get("attachment");
     if (!cv || typeof cv === "string" || !cv.size || cv.size > MAX_CV || !CV_OK.test(cv.name)) {
       return json(400, { ok: false, error: "cv" });
     }
-    const area = get("area");
-    subject = `Nueva postulación · ${nombre}${area ? " · " + area : ""}`;
-    filas = [["Nombre", nombre], ["Teléfono", get("telefono")], ["Correo", correo], ["Área", area], ["Zona", get("zona")], ["Mensaje", get("mensaje")], ["Idioma", idioma]];
+    subject = `Postulación · ${nombre} · ${get("zona") || "sin zona"}`;
+    filas = [["Motivo", "Trabajá con nosotros"], ["Nombre", nombre], ["Teléfono", get("telefono")], ["Correo", correo], ["Zona", get("zona")], ["Mensaje", get("mensaje")], ["Idioma", idioma]];
     attachments = [{ filename: cv.name, content: Buffer.from(await cv.arrayBuffer()).toString("base64") }];
   }
 

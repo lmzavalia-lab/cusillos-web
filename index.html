@@ -436,82 +436,17 @@
   </section>
 
   <!-- ============ EMPLEO ============ -->
-  <section class="section jobs" id="empleo" aria-labelledby="empleo-title">
-    <div class="container grid jobs__grid">
-      <div class="jobs__info" data-reveal>
+  <section class="jobs" id="empleo" aria-labelledby="empleo-title">
+    <div class="container jobs__inner" data-reveal>
+      <div class="jobs__text">
         <p class="eyebrow" data-i18n="footer.jobs">Trabajá con nosotros</p>
-        <h2 id="empleo-title" class="h2" data-i18n="jobs.title">Sumate a nuestros equipos.</h2>
-        <p data-i18n="jobs.p1">Buscamos personas comprometidas para nuestras fincas en Salta y Santiago del Estero y para la oficina de Yerba Buena.</p>
-        <p data-i18n="jobs.p2">Dejanos tus datos y tu CV. Lo tenemos en cuenta cada vez que se abre una búsqueda que coincide con tu perfil.</p>
+        <h2 id="empleo-title" class="h2 h2--sm" data-i18n="jobs.title">Sumate a nuestros equipos.</h2>
+        <p data-i18n="jobs.p">Buscamos personas comprometidas para nuestros establecimientos en Salta y Santiago del Estero y para la oficina de Yerba Buena. Dejanos tu CV y lo tenemos en cuenta cada vez que se abre una búsqueda.</p>
       </div>
-
-      <form class="form form--light" id="jobs-form" action="https://formsubmit.co/cusillos@cusillos.com.ar" method="POST" enctype="multipart/form-data" novalidate data-reveal>
-        <input type="hidden" name="_subject" value="Nueva postulación desde cusillos.com.ar">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://www.cusillos.com.ar/?postulacion=ok#empleo">
-        <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <div class="form__row">
-          <div class="field">
-            <label for="j-nombre" data-i18n="jobs.name">Nombre y apellido</label>
-            <input id="j-nombre" name="nombre" type="text" required autocomplete="name" maxlength="120">
-            <p class="field__error" id="je-nombre" data-i18n="form.name.err">Contanos tu nombre.</p>
-          </div>
-          <div class="field">
-            <label for="j-telefono" data-i18n="jobs.phone">Teléfono</label>
-            <input id="j-telefono" name="telefono" type="tel" required autocomplete="tel" inputmode="tel" maxlength="40">
-            <p class="field__error" id="je-telefono" data-i18n="jobs.phone.err">Dejanos un teléfono de contacto.</p>
-          </div>
-        </div>
-        <div class="field">
-          <label for="j-correo" data-i18n="form.email">Correo</label>
-          <input id="j-correo" name="correo" type="email" required autocomplete="email" inputmode="email" maxlength="160">
-          <p class="field__error" id="je-correo" data-i18n="form.email.err">Revisá el correo, por ejemplo nombre@empresa.com.</p>
-        </div>
-        <div class="form__row form__row--select">
-          <div class="field">
-            <label for="j-area" data-i18n="jobs.area">Área de interés</label>
-            <select id="j-area" name="area">
-              <option value="Campo y operaciones" data-i18n="jobs.area.1">Campo y operaciones</option>
-              <option value="Agronomía y técnica" data-i18n="jobs.area.2">Agronomía y técnica</option>
-              <option value="Mantenimiento y maquinaria" data-i18n="jobs.area.3">Mantenimiento y maquinaria</option>
-              <option value="Administración" data-i18n="jobs.area.4">Administración</option>
-              <option value="Otra" data-i18n="jobs.area.5">Otra</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="j-zona" data-i18n="jobs.zone">Zona</label>
-            <select id="j-zona" name="zona">
-              <option value="Salta">Salta</option>
-              <option value="Santiago del Estero">Santiago del Estero</option>
-              <option value="Tucumán">Tucumán</option>
-              <option value="Cualquiera" data-i18n="jobs.zone.any">Cualquiera</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <span class="field__label" id="j-cv-label" data-i18n="jobs.cv">CV</span>
-          <label class="file" for="j-cv">
-            <input id="j-cv" name="attachment" type="file" required accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-labelledby="j-cv-label j-cv-name">
-            <span class="file__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4M6.5 9.5 12 4l5.5 5.5M5 20h14"/></svg></span>
-            <span class="file__name" id="j-cv-name" data-i18n="jobs.cv.empty">Elegí un archivo PDF o Word, de hasta 4 MB</span>
-          </label>
-          <p class="field__error" id="je-cv" data-i18n="jobs.cv.err">Adjuntá tu CV en PDF o Word, de hasta 4 MB.</p>
-        </div>
-        <div class="field">
-          <label for="j-mensaje" data-i18n="jobs.message">Mensaje <span class="field__opt">(opcional)</span></label>
-          <textarea id="j-mensaje" name="mensaje" rows="3" maxlength="2000"></textarea>
-        </div>
-        <div class="form__footer">
-          <button type="submit" class="btn">
-            <span class="btn__label" data-i18n="jobs.send">Enviar postulación</span>
-            <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            <span class="btn__spinner" aria-hidden="true"></span>
-          </button>
-          <p class="form__status" role="status" aria-live="polite"></p>
-        </div>
-      </form>
+      <a href="#contacto" class="btn jobs__cta" data-motivo="Trabajá con nosotros">
+        <span data-i18n="jobs.cta">Enviá tu CV</span>
+        <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </section>
 
@@ -541,19 +476,30 @@
         </ul>
       </div>
 
-      <form class="form" id="contact-form" action="https://formsubmit.co/cusillos@cusillos.com.ar" method="POST" novalidate data-reveal>
+      <form class="form" id="contact-form" action="https://formsubmit.co/cusillos@cusillos.com.ar" method="POST" enctype="multipart/form-data" novalidate data-reveal>
         <input type="hidden" name="_subject" value="Nuevo mensaje desde cusillos.com.ar">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://www.cusillos.com.ar/?postulacion=ok#contacto">
         <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-        <div class="form__row">
+        <div class="field">
+          <label for="f-motivo" data-i18n="form.reason">Motivo</label>
+          <select id="f-motivo" name="motivo">
+            <option value="Consulta comercial" data-i18n="reason.1">Consulta comercial</option>
+            <option value="Proveedores" data-i18n="reason.2">Proveedores</option>
+            <option value="Trabajá con nosotros" data-i18n="reason.3">Trabajá con nosotros</option>
+            <option value="Reclamos y sugerencias" data-i18n="reason.4">Reclamos y sugerencias</option>
+            <option value="Otro" data-i18n="reason.5">Otro</option>
+          </select>
+        </div>
+        <div class="form__row" data-row-name>
           <div class="field">
             <label for="f-nombre" data-i18n="form.name">Nombre</label>
             <input id="f-nombre" name="nombre" type="text" required autocomplete="name" maxlength="120">
             <p class="field__error" id="e-nombre" data-i18n="form.name.err">Contanos tu nombre.</p>
           </div>
-          <div class="field">
+          <div class="field" data-company>
             <label for="f-empresa" data-i18n="form.company">Empresa <span class="field__opt">(opcional)</span></label>
             <input id="f-empresa" name="empresa" type="text" autocomplete="organization" maxlength="120">
           </div>
@@ -563,14 +509,43 @@
           <input id="f-correo" name="correo" type="email" required autocomplete="email" inputmode="email" maxlength="160">
           <p class="field__error" id="e-correo" data-i18n="form.email.err">Revisá el correo, por ejemplo nombre@empresa.com.</p>
         </div>
+
+        <div class="form__extra" data-extra hidden>
+          <div class="form__row">
+            <div class="field">
+              <label for="f-telefono" data-i18n="jobs.phone">Teléfono</label>
+              <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" disabled>
+              <p class="field__error" id="e-telefono" data-i18n="jobs.phone.err">Dejanos un teléfono de contacto.</p>
+            </div>
+            <div class="field">
+              <label for="f-zona" data-i18n="jobs.zone">Zona</label>
+              <select id="f-zona" name="zona" disabled>
+                <option value="Salta">Salta</option>
+                <option value="Santiago del Estero">Santiago del Estero</option>
+                <option value="Tucumán">Tucumán</option>
+                <option value="Cualquiera" data-i18n="jobs.zone.any">Cualquiera</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field__label" id="f-cv-label" data-i18n="jobs.cv">CV</span>
+            <label class="file" for="f-cv">
+              <input id="f-cv" name="attachment" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-labelledby="f-cv-label f-cv-name" disabled>
+              <span class="file__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4M6.5 9.5 12 4l5.5 5.5M5 20h14"/></svg></span>
+              <span class="file__name" id="f-cv-name" data-i18n="jobs.cv.empty">Elegí un archivo PDF o Word, de hasta 4 MB</span>
+            </label>
+            <p class="field__error" id="e-cv" data-i18n="jobs.cv.err">Adjuntá tu CV en PDF o Word, de hasta 4 MB.</p>
+          </div>
+        </div>
+
         <div class="field">
-          <label for="f-mensaje" data-i18n="form.message">Mensaje</label>
-          <textarea id="f-mensaje" name="mensaje" rows="5" required maxlength="4000"></textarea>
+          <label for="f-mensaje"><span data-i18n="form.message">Mensaje</span><span class="field__opt" data-optional hidden> <span data-i18n="form.optional">(opcional)</span></span></label>
+          <textarea id="f-mensaje" name="mensaje" rows="5" maxlength="4000"></textarea>
           <p class="field__error" id="e-mensaje" data-i18n="form.message.err">Escribí tu mensaje.</p>
         </div>
         <div class="form__footer">
           <button type="submit" class="btn">
-            <span class="btn__label" data-i18n="form.send">Enviar mensaje</span>
+            <span class="btn__label"><span data-i18n="form.send" data-send="msg">Enviar mensaje</span><span data-i18n="jobs.send" data-send="job" hidden>Enviar postulación</span></span>
             <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             <span class="btn__spinner" aria-hidden="true"></span>
           </button>
