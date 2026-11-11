@@ -27,7 +27,7 @@
     "hero.lead": "We are a company from Tucumán, with certified production in three provinces.",
     "hero.more": "Get to know us",
     "hero.fact1": "<strong>Since 1997</strong> in agricultural production",
-    "hero.fact3": "<strong>RTRS and FSA certified</strong>",
+    "hero.fact3": "<strong>RTRS and FSA certified · CREA members</strong>",
 
     "about.title": "We are an agribusiness that creates opportunities for the sustainable growth of its shareholders and its community.",
     "about.p1": "Founded in 1997 by a group of agronomists, Cusillos SA now operates with a professional board and stable teams in each production area.",
@@ -128,6 +128,7 @@
 
     "certs.title": "Certified production since 2014.",
     "certs.lead": "We have been RTRS certified since 2014, and added FSA in 2020. Every season, independent external auditors verify both standards in the field and in our records.",
+    "certs.eyebrow": "Certifications and networks",
     "certs.since": "Since 2014",
     "certs.since.fsa": "Since 2020",
     "certs.rtrs.t": "Responsible soy",
@@ -142,6 +143,10 @@
     "certs.fsa.2": "Responsible management of nutrients and crop protection products",
     "certs.fsa.3": "Health, safety and rights of everyone who works with us",
     "certs.fsa.4": "Professional management and economic viability of the farm",
+
+    "networks.label": "We are also part of",
+    "networks.crea": "We belong to a CREA group, where farmers and advisors share experience and information to improve production and the management of each business.",
+    "networks.bff": "We are part of the network of independent farmers through which Bayer promotes and showcases regenerative agriculture practices on real farms.",
 
     "report.eyebrow": "Sustainability magazines",
     "report.t": "Sustainability Actions 2025 / 2026",
