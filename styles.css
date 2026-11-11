@@ -140,6 +140,7 @@ html { scrollbar-color: var(--teal) transparent; }
 .btn__arrow { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 240ms var(--ease-out); }
 .btn:active { transform: scale(0.97); }
 .btn__spinner { display: none; }
+.btn__wa { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-left: -4px; }
 
 .link-light {
   position: relative; color: #fff; text-decoration: none; font-weight: 500; padding-block: 6px;
