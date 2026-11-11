@@ -305,8 +305,8 @@
         <h2 id="contacto-title" class="h2">Escribinos y te respondemos.</h2>
         <ul class="contact__list" role="list">
           <li>
-            <span class="contact__icon"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h3l2 5-2.5 1.5a11 11 0 0 0 6.5 6.5L15.5 14l5 2v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></svg></span>
-            <span><small>Teléfono</small><a href="tel:+543815430098">381 543-0098</a></span>
+            <span class="contact__icon"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.5z"/><path d="M9.2 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.2-.1.4 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.5c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.1.6-.6.8-.6.3-1.6.5-3-.2a9 9 0 0 1-3.8-3.8c-.7-1.4-.5-2.4-.2-3z"/></svg></span>
+            <span><small>WhatsApp</small><a href="https://wa.me/5493815430098?text=Hola%2C%20les%20escribo%20desde%20la%20web%20de%20Cusillos." target="_blank" rel="noopener" data-whatsapp>381 543-0098</a></span>
           </li>
           <li>
             <span class="contact__icon"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></span>
@@ -373,9 +373,25 @@
   </div>
   <div class="container footer__bottom">
     <p>© <span id="year">2026</span> Cusillos S.A. Todos los derechos reservados.</p>
-    <p>Av. Perón 2300 · Yerba Buena · Tucumán · Argentina</p>
+    <p>Av. Perón 2300 · Yerba Buena · Tucumán · <a href="https://wa.me/5493815430098?text=Hola%2C%20les%20escribo%20desde%20la%20web%20de%20Cusillos." target="_blank" rel="noopener" class="footer__wa" aria-label="Escribinos por WhatsApp al 381 543-0098">WhatsApp 381 543-0098</a></p>
   </div>
 </footer>
+
+<a href="#top" class="to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</a>
+
+<dialog class="modal" id="form-modal" aria-labelledby="modal-title" aria-describedby="modal-text">
+  <div class="modal__box">
+    <span class="modal__icon" data-modal-icon aria-hidden="true">
+      <svg class="modal__ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      <svg class="modal__err" viewBox="0 0 24 24"><path d="M12 7v6M12 16.5v.5"/></svg>
+    </span>
+    <h2 class="modal__title" id="modal-title">Mensaje enviado</h2>
+    <p class="modal__text" id="modal-text">Gracias por escribirnos. Nos pondremos en contacto a la brevedad.</p>
+    <button type="button" class="btn modal__close" data-modal-close>Cerrar</button>
+  </div>
+</dialog>
 
 <script src="main.js" defer></script>
 </body>

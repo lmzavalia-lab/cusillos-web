@@ -189,6 +189,36 @@
     pause();
   });
 
+  /* ---------- Volver arriba ---------- */
+  const toTop = document.querySelector(".to-top");
+  if (toTop) {
+    const updateToTop = () => toTop.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.8);
+    window.addEventListener("scroll", updateToTop, { passive: true });
+    updateToTop();
+    toTop.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      document.querySelector(".header__logo").focus({ preventScroll: true });
+    });
+  }
+
+  /* ---------- Popup ---------- */
+  const modal = document.getElementById("form-modal");
+  const openModal = (type, title, html) => {
+    if (!modal) return;
+    modal.classList.toggle("is-error", type === "error");
+    modal.querySelector(".modal__title").textContent = title;
+    modal.querySelector(".modal__text").innerHTML = html;
+    if (typeof modal.showModal === "function") modal.showModal();
+    else modal.setAttribute("open", "");
+    modal.querySelector("[data-modal-close]").focus();
+  };
+  if (modal) {
+    const close = () => (typeof modal.close === "function" ? modal.close() : modal.removeAttribute("open"));
+    modal.querySelector("[data-modal-close]").addEventListener("click", close);
+    modal.addEventListener("click", (e) => { if (e.target === modal) close(); }); // clic fuera de la caja
+  }
+
   /* ---------- Formulario de contacto ---------- */
   const form = document.getElementById("contact-form");
   if (form) {
@@ -246,11 +276,18 @@
           body: JSON.stringify(data),
         });
         const json = await res.json().catch(() => ({}));
-        if (!res.ok || String(json.success) === "false") throw new Error(json.message || "error");
+        if (!res.ok || String(json.success) === "false") throw new Error(json.message || "error " + res.status);
         form.reset();
-        setStatus("¡Gracias! Recibimos tu mensaje y te respondemos a la brevedad.", "ok");
+        setStatus("");
+        openModal("ok", "Mensaje enviado", "Gracias por escribirnos. Nos pondremos en contacto a la brevedad.");
       } catch (err) {
-        setStatus("No pudimos enviar el mensaje. Escribinos a cusillos@cusillos.com.ar o llamanos al 381 543-0098.", "error");
+        console.warn("[contacto] No se pudo enviar:", err.message);
+        setStatus("");
+        openModal(
+          "error",
+          "No pudimos enviar el mensaje",
+          'Probá de nuevo en unos minutos, o escribinos a <a href="mailto:cusillos@cusillos.com.ar">cusillos@cusillos.com.ar</a> o por <a href="https://wa.me/5493815430098" target="_blank" rel="noopener">WhatsApp</a>.'
+        );
       } finally {
         form.classList.remove("is-sending");
       }
