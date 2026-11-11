@@ -204,6 +204,99 @@
     pause();
   });
 
+  /* ---------- Programas de sustentabilidad: lista + foto grande ---------- */
+  const showcase = document.querySelector("[data-showcase]");
+  if (showcase) {
+    const items = [...showcase.querySelectorAll("[data-showcase-item]")];
+    const photos = [...showcase.querySelectorAll(".showcase__stage img")];
+    const chip = showcase.querySelector(".showcase__chip");
+    const chipName = showcase.querySelector("[data-showcase-name]");
+    const chipCount = showcase.querySelector("[data-showcase-count]");
+    const SC_DURATION = 7000;
+    const total = items.length;
+    showcase.style.setProperty("--sc-dur", SC_DURATION + "ms");
+
+    let index = 0, timer = null, remaining = SC_DURATION, startedAt = 0;
+    let visible = false, hovering = false;
+
+    const nameOf = (n) => items[n].querySelector(".showcase__title span").textContent.trim();
+    const updateChip = (animate) => {
+      chipCount.textContent = String(index + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
+      if (!animate) { chipName.textContent = nameOf(index); return; }
+      chip.classList.add("is-swapping");
+      setTimeout(() => { chipName.textContent = nameOf(index); chip.classList.remove("is-swapping"); }, 250);
+    };
+
+    const stop = () => { clearTimeout(timer); timer = null; };
+    const schedule = (ms) => {
+      stop();
+      if (!visible || hovering) { showcase.classList.add("is-paused"); return; }
+      showcase.classList.remove("is-paused");
+      startedAt = performance.now();
+      remaining = ms;
+      timer = setTimeout(() => select(index + 1), ms);
+    };
+    const pause = () => {
+      if (timer) remaining = Math.max(0, remaining - (performance.now() - startedAt));
+      stop();
+      showcase.classList.add("is-paused");
+    };
+    const resume = () => { showcase.classList.remove("is-paused"); schedule(remaining); };
+
+    const select = (n, restartPhoto) => {
+      index = (n + total) % total;
+      items.forEach((it, k) => {
+        const on = k === index;
+        it.classList.toggle("is-active", on);
+        it.querySelector(".showcase__title button").setAttribute("aria-expanded", String(on));
+      });
+      photos.forEach((ph, k) => {
+        if (k === index && restartPhoto) { ph.classList.remove("is-active"); void ph.offsetWidth; }
+        ph.classList.toggle("is-active", k === index);
+      });
+      // reinicia la línea de progreso
+      const bar = items[index].querySelector(".showcase__bar");
+      bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = "";
+      updateChip(true);
+      remaining = SC_DURATION;
+      schedule(SC_DURATION);
+    };
+
+    items.forEach((it, k) => {
+      it.addEventListener("click", () => { if (k !== index) select(k); });
+      it.querySelector(".showcase__title button").addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          select(index + (e.key === "ArrowDown" ? 1 : -1));
+          items[index].querySelector(".showcase__title button").focus();
+        }
+      });
+    });
+
+    showcase.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; pause(); } });
+    showcase.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hovering = false; resume(); } });
+
+    // Deslizar la foto con el dedo en el celular
+    const stage = showcase.querySelector(".showcase__stage");
+    let sx = 0, sy = 0;
+    stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    stage.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) select(index + (dx < 0 ? 1 : -1));
+    });
+
+    let seen = false;
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !seen) { seen = true; select(index, true); return; }
+      if (visible) resume(); else pause();
+    }, { threshold: 0.3 }).observe(showcase);
+    document.addEventListener("visibilitychange", () => (document.hidden ? pause() : resume()));
+    document.addEventListener("langchange", () => updateChip(false));
+    updateChip(false);
+    pause();
+  }
+
   /* ---------- Volver arriba ---------- */
   const toTop = document.querySelector(".to-top");
   if (toTop) {
