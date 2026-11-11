@@ -347,7 +347,7 @@ html { scrollbar-color: var(--teal) transparent; }
 .zones__grid { row-gap: var(--s-12); align-items: center; }
 .zones__text { grid-column: 1 / span 5; }
 .zones__lead { color: var(--ink-soft); margin-top: var(--s-6); max-width: 44ch; }
-.zones__list { display: grid; margin-top: var(--s-10); border-top: 1px solid var(--line); }
+.zones__list { display: grid; margin-top: var(--s-6); border-top: 1px solid var(--line); }
 .zone {
   display: flex; align-items: flex-start; gap: var(--s-4); padding: var(--s-4) var(--s-2);
   border-bottom: 1px solid var(--line); cursor: default; outline-offset: -2px;

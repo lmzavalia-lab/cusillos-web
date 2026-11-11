@@ -59,13 +59,13 @@
   .photo img { width: 100%; height: 100%; object-fit: cover; }
 
   /* Producción */
-  .crops { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2.5mm; margin: 7mm 0 9mm; }
-  .crop { position: relative; height: 26mm; border-radius: 2mm; overflow: hidden; }
+  .crops { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2.5mm; margin: 6mm 0 7mm; }
+  .crop { position: relative; height: 19mm; border-radius: 2mm; overflow: hidden; }
   .crop img { width: 100%; height: 100%; object-fit: cover; }
   .crop span { position: absolute; left: 2mm; bottom: 1.6mm; font-size: 7pt; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
   .crop::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0,44,51,0.75)); }
-  .zones { display: grid; grid-template-columns: 70mm 1fr; gap: 8mm; align-items: start; }
-  .zone { padding: 3.2mm 0; border-bottom: 1px solid var(--line); display: flex; gap: 3mm; }
+  .zones { display: grid; grid-template-columns: 80mm 1fr; gap: 8mm; align-items: start; }
+  .zone { padding: 2.6mm 0; border-bottom: 1px solid var(--line); display: flex; gap: 3mm; }
   .zone:first-child { border-top: 1px solid var(--line); }
   .zone i { flex-shrink: 0; width: 3mm; height: 3mm; margin-top: 1.4mm; border-radius: 50%; background: var(--orange); }
   .zone--office i { border-radius: 0.6mm; background: var(--teal); }
@@ -88,7 +88,7 @@
   .pin__label { font: 600 13px/1 "Montserrat", sans-serif; fill: var(--teal-950); paint-order: stroke; stroke: rgba(255,255,255,0.9); stroke-width: 4px; stroke-linejoin: round; }
   .note { margin-top: 3mm; font-size: 7.5pt; color: var(--ink-soft); }
   .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin-top: 9mm; }
-  .how div { background: var(--paper-warm); border-radius: 3mm; padding: 5mm; }
+  .how div { background: var(--paper-warm); border-radius: 3mm; padding: 4mm; }
   .how h3 { font-size: 11.5pt; color: var(--teal); margin-bottom: 1.5mm; }
   .how p { font-size: 9pt; color: var(--ink-soft); line-height: 1.5; }
 
@@ -145,7 +145,7 @@
       <div class="cover__facts">
         <p><strong>Desde 1997</strong>en la producción agrícola</p>
         <p><strong>Tres provincias</strong>Salta, Santiago del Estero y Tucumán</p>
-        <p><strong>RTRS y FSA</strong>certificados desde 2014</p>
+        <p><strong>RTRS y FSA</strong>certificaciones desde 2014 y 2020</p>
       </div>
     </div>
   </div>
@@ -196,6 +196,7 @@
   <div class="zones">
     <div>
       <p class="eyebrow">Dónde producimos</p>
+      <p class="soft" style="font-size:9pt;line-height:1.5;margin-bottom:3mm">Producimos en Tucumán, Salta y Santiago del Estero, pero concentramos nuestros centros operativos en estos puntos:</p>
       <ul>
         <li class="zone"><i></i><span><strong>Finca Los Cebiles</strong><small>Ruta Nacional 34, km 921 · Antillas, Salta</small></span></li>
         <li class="zone"><i></i><span><strong>Finca Los Gurises</strong><small>Ruta Nacional 34, km 884 · Rapelli, Santiago del Estero</small></span></li>
@@ -206,7 +207,7 @@
     </div>
     <div class="mapbox">{{MAPA}}</div>
   </div>
-  <p class="eyebrow" style="margin-top:10mm">Cómo producimos</p>
+  <p class="eyebrow" style="margin-top:5mm">Cómo producimos</p>
   <div class="how" style="margin-top:0">
     <div><h3>Agricultura certificada</h3><p>Producimos bajo estándares certificados respetando las normas.</p></div>
     <div><h3>Tecnología y procesos</h3><p>La productividad se construye con aplicación de tecnología, conocimiento y procesos definidos en cada etapa.</p></div>
@@ -219,7 +220,7 @@
 <section class="page">
   <p class="eyebrow">Certificaciones</p>
   <h2 class="h2">Producción certificada desde 2014.</h2>
-  <p class="lead">Hace más de diez años que trabajamos bajo dos estándares internacionales de sustentabilidad. Cada campaña los verifican auditores externos e independientes, en el campo y en nuestros registros.</p>
+  <p class="lead">Desde 2014 certificamos nuestra producción con RTRS, y en 2020 sumamos FSA. Cada campaña auditores externos e independientes verifican ambos estándares, en el campo y en nuestros registros.</p>
   <div class="certs" style="margin-top:10mm">
     <div class="cert">
       <div class="cert__top"><img src="../assets/img/logo-rtrs.png" alt="RTRS"><span class="since">Desde 2014</span></div>
@@ -234,7 +235,7 @@
       </ul>
     </div>
     <div class="cert">
-      <div class="cert__top"><img class="wide" src="../assets/img/logo-fsa.png" alt="FSA"><span class="since">Desde 2014</span></div>
+      <div class="cert__top"><img class="wide" src="../assets/img/logo-fsa.png" alt="FSA"><span class="since">Desde 2020</span></div>
       <h3>Sustentabilidad en finca</h3>
       <p class="org">Farm Sustainability Assessment · SAI Platform</p>
       <p class="desc">Herramienta que usa la industria global de alimentos y bebidas para evaluar cómo se produce en el campo y elegir a sus proveedores.</p>
@@ -246,7 +247,7 @@
       </ul>
     </div>
   </div>
-  <div class="audit"><strong>2014</strong><p>Año en que obtuvimos nuestras primeras certificaciones internacionales. Desde entonces las mantenemos campaña tras campaña, con auditorías externas e independientes.</p></div>
+  <div class="audit"><strong>2014</strong><p>Año en que obtuvimos nuestra primera certificación internacional, RTRS. En 2020 sumamos FSA, y desde entonces mantenemos ambas campaña tras campaña, con auditorías externas e independientes.</p></div>
   <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>04</span></div>
 </section>
 

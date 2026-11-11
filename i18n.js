@@ -120,15 +120,16 @@
 
     "zones.eyebrow": "Where we farm",
     "zones.title": "Our operations in Northern Argentina.",
-    "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, along National Route 34, and run the operation from our office in Yerba Buena.",
+    "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, but our operations are centred at these locations:",
     "zones.medialuna": "Provincial Route 4 · Pellegrini, Santiago del Estero",
     "zones.office": "Head office",
     "zones.note": "The orange dots mark the main farmstead of each operation. Illustrative map, locations are approximate.",
     "zones.map": "Illustrative map showing Cusillos farms in Salta and Santiago del Estero and the office in Yerba Buena, Tucumán",
 
     "certs.title": "Certified production since 2014.",
-    "certs.lead": "For over ten years we have worked under two international sustainability standards. Every season, independent external auditors verify them in the field and in our records.",
+    "certs.lead": "We have been RTRS certified since 2014, and added FSA in 2020. Every season, independent external auditors verify both standards in the field and in our records.",
     "certs.since": "Since 2014",
+    "certs.since.fsa": "Since 2020",
     "certs.rtrs.t": "Responsible soy",
     "certs.rtrs.p": "International standard certifying that soybeans are produced responsibly, environmentally, socially and economically.",
     "certs.rtrs.1": "No deforestation or conversion of natural ecosystems",
