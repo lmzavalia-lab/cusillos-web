@@ -423,19 +423,35 @@ html { scrollbar-color: var(--teal) transparent; }
 .program__text p:not(.program__tag) { font-size: 15.5px; line-height: 1.75; color: var(--ink-soft); }
 .program__text p + p:not(.program__tag) { margin-top: var(--s-4); }
 
-/* ---------- Reporte ---------- */
+/* ---------- Revistas ---------- */
 .report {
-  display: flex; align-items: center; gap: var(--s-6) var(--s-8); flex-wrap: wrap;
-  margin-top: clamp(72px, 9vw, 128px); padding: clamp(24px, 3vw, 40px);
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s-8) var(--col-gap); align-items: center;
+  margin-top: clamp(72px, 9vw, 128px); padding: clamp(28px, 4vw, 56px);
   background: #eef3f2; border-radius: 12px;
 }
-.report__icon { display: grid; place-items: center; flex-shrink: 0; width: 64px; height: 64px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 1px var(--line); }
-.report__icon svg { width: 30px; height: 30px; fill: none; stroke: var(--teal); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.report__text { flex: 1 1 320px; }
-.report__title { font-size: 22px; font-weight: 600; color: var(--teal); margin-bottom: var(--s-1); }
-.report__text p { font-size: 15.5px; color: var(--ink-soft); max-width: 56ch; }
-.report__btn { flex-shrink: 0; }
-@media (hover: hover) and (pointer: fine) { .report__btn:hover .btn__arrow { transform: translateY(2px); } }
+.report__text .eyebrow { margin-bottom: var(--s-4); }
+.report__title { font-size: clamp(22px, 2.2vw, 28px); font-weight: 600; color: var(--teal); margin-bottom: var(--s-4); }
+.report__text p:not(.eyebrow) { font-size: 15.5px; color: var(--ink-soft); max-width: 44ch; }
+.report__mags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6); }
+.mag { display: flex; gap: var(--s-4); align-items: flex-end; text-decoration: none; color: inherit; border-radius: 8px; }
+.mag__cover {
+  flex: 0 0 auto; width: clamp(96px, 9vw, 128px); aspect-ratio: 480 / 679; border-radius: 6px; overflow: hidden; background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12), 0 14px 28px -14px rgba(0,44,51,0.45);
+  transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+}
+.mag__cover img { width: 100%; height: 100%; object-fit: cover; }
+.mag__info { display: grid; gap: 2px; padding-bottom: 4px; }
+.mag__info strong { font-family: var(--font-head); font-size: 18px; font-weight: 600; color: var(--teal); line-height: 1.25; }
+.mag__info small { font-size: 13px; color: var(--ink-soft); }
+.mag__cta {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: var(--s-3);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange-600);
+}
+.mag__cta svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 240ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .mag:hover .mag__cover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 22px 36px -16px rgba(0,44,51,0.55); }
+  .mag:hover .mag__cta svg { transform: translateY(2px); }
+}
 
 /* ---------- Carrusel ---------- */
 .carousel { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 10; background: var(--paper-warm); touch-action: pan-y; }
@@ -739,11 +755,9 @@ html { scrollbar-color: var(--teal) transparent; }
   .zones__text, .zones__map, .jobs__info { grid-column: 1 / -1; }
   .certs-head__body { grid-column: 1 / -1; }
   .cert-cards { grid-template-columns: 1fr; }
+  .report { grid-template-columns: 1fr; }
   .cert-card__top { height: 80px; }
   .cert-card__logo--wide img { height: 52px; }
-  .report { flex-direction: column; align-items: flex-start; }
-  .report__text { flex: none; }
-  .report__btn { width: 100%; justify-content: center; }
   .contact__info .h2 { margin-bottom: var(--s-8); }
   .form__row { grid-template-columns: 1fr; }
 
@@ -755,4 +769,5 @@ html { scrollbar-color: var(--teal) transparent; }
   .hero__actions .btn { width: 100%; justify-content: center; }
   .form .btn { width: 100%; justify-content: center; }
   .carousel { aspect-ratio: 4 / 3; }
+  .report__mags { grid-template-columns: 1fr; }
 }

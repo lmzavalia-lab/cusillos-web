@@ -143,9 +143,10 @@
     "certs.fsa.3": "Health, safety and rights of everyone who works with us",
     "certs.fsa.4": "Professional management and economic viability of the farm",
 
-    "report.t": "Sustainability Report",
-    "report.p": "Our social and environmental programmes, certifications and the way we farm, in a single document (in Spanish).",
-    "report.btn": "Download PDF",
+    "report.eyebrow": "Sustainability magazines",
+    "report.t": "Sustainability Actions 2025 / 2026",
+    "report.p": "A detailed look at our programmes with people, teams and the communities where we work. There is one magazine for each company in the group (in Spanish).",
+    "report.btn": "Download",
 
     "jobs.title": "Join our teams.",
     "jobs.p1": "We are looking for committed people for our farms in Salta and Santiago del Estero and for our office in Yerba Buena.",
