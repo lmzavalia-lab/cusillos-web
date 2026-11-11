@@ -119,11 +119,11 @@
     "how.3.link": "See the map",
 
     "zones.eyebrow": "Where we farm",
-    "zones.title": "Our farms in Northern Argentina.",
-    "zones.lead": "We farm in Salta and Santiago del Estero, along National Route 34, and run the operation from our office in Yerba Buena, Tucumán.",
+    "zones.title": "Our operations in Northern Argentina.",
+    "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, along National Route 34, and run the operation from our office in Yerba Buena.",
     "zones.medialuna": "Provincial Route 4 · Pellegrini, Santiago del Estero",
     "zones.office": "Head office",
-    "zones.note": "Illustrative map. Locations are approximate.",
+    "zones.note": "The orange dots mark the main farmstead of each operation. Illustrative map, locations are approximate.",
     "zones.map": "Illustrative map showing Cusillos farms in Salta and Santiago del Estero and the office in Yerba Buena, Tucumán",
 
     "certs.title": "Certified production since 2014.",
