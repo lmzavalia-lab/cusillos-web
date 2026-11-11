@@ -113,9 +113,12 @@
     let visible = false;
     let hovering = false;
 
+    // Cada foto entra con un fundido y se mueve despacio (zoom + leve desplazamiento)
     const render = () => {
-      track.style.transform = `translate3d(${-index * 100}%, 0, 0)`;
-      slides.forEach((s, n) => s.toggleAttribute("aria-hidden", n !== index));
+      slides.forEach((s, n) => {
+        s.classList.toggle("is-active", n === index);
+        s.toggleAttribute("aria-hidden", n !== index);
+      });
       dots.forEach((d, n) => {
         d.classList.remove("is-active");
         d.classList.toggle("is-done", n < index);
@@ -130,7 +133,7 @@
     const stop = () => { clearTimeout(timer); timer = null; };
     const schedule = (ms) => {
       stop();
-      if (reduceMotion || !visible || hovering) return;
+      if (!visible || hovering) return;
       startedAt = performance.now();
       remaining = ms;
       timer = setTimeout(() => go(index + 1), ms);
@@ -164,39 +167,37 @@
       if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
     });
 
-    // Swipe con seguimiento del dedo
-    let startX = 0, startY = 0, dx = 0, dragging = false, locked = null;
-    const width = () => carousel.clientWidth;
+    // Deslizar con el dedo para pasar de foto
+    let startX = 0, startY = 0, dx = 0, dy = 0, dragging = false;
     carousel.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].clientX; startY = e.touches[0].clientY; dx = 0; dragging = true; locked = null;
-      pause();
+      startX = e.touches[0].clientX; startY = e.touches[0].clientY; dx = dy = 0; dragging = true;
     }, { passive: true });
     carousel.addEventListener("touchmove", (e) => {
       if (!dragging) return;
-      const mx = e.touches[0].clientX - startX;
-      const my = e.touches[0].clientY - startY;
-      if (locked === null && (Math.abs(mx) > 6 || Math.abs(my) > 6)) locked = Math.abs(mx) > Math.abs(my) ? "x" : "y";
-      if (locked !== "x") return;
-      dx = mx;
-      const edge = (index === 0 && dx > 0) || (index === total - 1 && dx < 0) ? 0.35 : 1;
-      track.style.transition = "none";
-      track.style.transform = `translate3d(${-index * width() + dx * edge}px, 0, 0)`;
+      dx = e.touches[0].clientX - startX;
+      dy = e.touches[0].clientY - startY;
     }, { passive: true });
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
-      track.style.transition = "";
-      if (locked === "x" && Math.abs(dx) > width() * 0.18) go(index + (dx < 0 ? 1 : -1));
-      else { render(); resume(); }
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(index + (dx < 0 ? 1 : -1));
     };
     carousel.addEventListener("touchend", endDrag);
     carousel.addEventListener("touchcancel", endDrag);
 
     // Solo avanza cuando está a la vista
+    let seen = false;
     new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (visible && !seen) {
+        // la primera vez que aparece, la foto arranca su movimiento desde cero
+        seen = true;
+        slides[index].classList.remove("is-active");
+        void slides[index].offsetWidth;
+        slides[index].classList.add("is-active");
+      }
       if (visible) resume(); else pause();
-    }, { threshold: 0.4 }).observe(carousel);
+    }, { threshold: 0.3 }).observe(carousel);
     document.addEventListener("visibilitychange", () => (document.hidden ? pause() : resume()));
 
     render();

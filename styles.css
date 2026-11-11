@@ -475,8 +475,25 @@ html { scrollbar-color: var(--teal) transparent; }
 /* ---------- Carrusel ---------- */
 .carousel { position: relative; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 10; background: var(--paper-warm); touch-action: pan-y; }
 .carousel::after { content: ""; position: absolute; inset: 0; outline: 1px solid rgba(0,0,0,0.08); outline-offset: -1px; border-radius: inherit; pointer-events: none; z-index: 3; }
-.carousel__track { display: flex; height: 100%; transition: transform 700ms var(--ease-in-out); will-change: transform; }
-.carousel__track img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.carousel__track { position: relative; height: 100%; }
+/* Fundido entre fotos + movimiento lento (efecto "Ken Burns") */
+.carousel__track img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  user-select: none; -webkit-user-drag: none;
+  opacity: 0; transform: scale(1.02) translate3d(0, 0, 0);
+  transition: opacity 1200ms ease, transform 0s linear 1200ms;
+  will-change: opacity, transform;
+}
+.carousel__track img.is-active {
+  opacity: 1; z-index: 1;
+  transform: scale(1.12) translate3d(var(--kb-x, -2%), var(--kb-y, -1.5%), 0);
+  transition: opacity 1200ms ease, transform 9000ms linear;
+}
+.carousel__track img:nth-child(3n+2) { --kb-x: 2%; --kb-y: 1.5%; transform-origin: 70% 40%; }
+.carousel__track img:nth-child(3n+3) { --kb-x: -1.5%; --kb-y: 2%; transform-origin: 30% 70%; }
+@media (prefers-reduced-motion: reduce) {
+  .carousel__track img, .carousel__track img.is-active { transform: none; transition: opacity 600ms ease !important; }
+}
 .carousel__shade { position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(0deg, rgba(0,0,0,0.38), rgba(0,0,0,0)); pointer-events: none; z-index: 1; }
 .carousel__btn {
   position: absolute; top: 50%; z-index: 2;
