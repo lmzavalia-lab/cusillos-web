@@ -66,7 +66,7 @@
   const chevron = (dir) =>
     `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${dir === "prev" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"}"/></svg>`;
   const pad = (n) => String(n).padStart(2, "0");
-  const DURATION = 6000;
+  const DURATION = 4000;
 
   document.querySelectorAll("[data-carousel]").forEach((carousel) => {
     const track = carousel.querySelector(".carousel__track");
