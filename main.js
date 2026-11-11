@@ -273,6 +273,17 @@
       });
     });
 
+    const prevBtn = showcase.querySelector("[data-showcase-prev]");
+    const nextBtn = showcase.querySelector("[data-showcase-next]");
+    const labelArrows = () => {
+      prevBtn.setAttribute("aria-label", t("showcase.prev"));
+      nextBtn.setAttribute("aria-label", t("showcase.next"));
+    };
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); select(index - 1); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); select(index + 1); });
+    labelArrows();
+    document.addEventListener("langchange", labelArrows);
+
     showcase.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; pause(); } });
     showcase.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { hovering = false; resume(); } });
 
