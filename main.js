@@ -266,6 +266,7 @@
 
       form.classList.add("is-sending");
       setStatus("Enviando…");
+      const slowHint = setTimeout(() => setStatus("Enviando… puede tardar unos segundos, no cierres la página."), 5000);
       const data = Object.fromEntries(new FormData(form));
       data._replyto = data.correo;
 
@@ -289,6 +290,7 @@
           'Probá de nuevo en unos minutos, o escribinos a <a href="mailto:cusillos@cusillos.com.ar">cusillos@cusillos.com.ar</a> o por <a href="https://wa.me/5493815430098" target="_blank" rel="noopener">WhatsApp</a>.'
         );
       } finally {
+        clearTimeout(slowHint);
         form.classList.remove("is-sending");
       }
     });
