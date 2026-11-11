@@ -196,6 +196,16 @@ html { scrollbar-color: var(--teal) transparent; }
   .nav__cta:hover { background: var(--teal); color: #fff !important; }
 }
 
+.nav { margin-left: auto; }
+.lang { display: flex; align-items: center; gap: 2px; margin-left: clamp(16px, 2vw, 28px); padding-left: clamp(12px, 1.6vw, 20px); border-left: 1px solid var(--line); }
+.lang__btn {
+  min-width: 36px; min-height: 36px; padding: 0 6px; border: 0; border-radius: var(--radius); background: none; cursor: pointer;
+  font: 600 13px/1 var(--font-body); letter-spacing: 0.08em; color: var(--ink-soft);
+  transition: color 200ms var(--ease-out);
+}
+.lang__btn[aria-pressed="true"] { color: var(--teal); text-decoration: underline 2px var(--orange); text-underline-offset: 6px; }
+@media (hover: hover) and (pointer: fine) { .lang__btn:hover { color: var(--teal); } }
+
 .nav-toggle { display: none; position: relative; width: 44px; height: 44px; margin-right: -10px; background: none; border: 0; cursor: pointer; }
 .nav-toggle span {
   position: absolute; left: 11px; right: 11px; height: 2px; border-radius: 2px; background: var(--teal);
@@ -533,6 +543,7 @@ html { scrollbar-color: var(--teal) transparent; }
   :root { --header-h: 72px; }
   .header__logo img, .header.is-scrolled .header__logo img { width: 64px; }
   .nav-toggle { display: block; }
+  .lang { margin-left: auto; margin-right: var(--s-2); padding-left: 0; border-left: 0; }
   .nav {
     position: absolute; top: 100%; left: 0; right: 0;
     flex-direction: column; align-items: stretch; gap: 0;

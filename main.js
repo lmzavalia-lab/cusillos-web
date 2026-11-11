@@ -2,6 +2,7 @@
   "use strict";
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const t = window.i18n ? window.i18n.t : (k) => k;
 
   /* ---------- Header ---------- */
   const header = document.querySelector(".header");
@@ -15,7 +16,7 @@
   const setMenu = (open) => {
     nav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    toggle.setAttribute("aria-label", t(open ? "menu.close" : "menu.open"));
   };
   toggle.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
   nav.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
@@ -26,6 +27,7 @@
     if (nav.classList.contains("is-open") && !header.contains(e.target)) setMenu(false);
   });
   window.matchMedia("(min-width: 861px)").addEventListener("change", (m) => { if (m.matches) setMenu(false); });
+  document.addEventListener("langchange", () => setMenu(nav.classList.contains("is-open")));
 
   /* ---------- Link activo según la sección ---------- */
   const links = [...nav.querySelectorAll('a[href^="#"]')];
@@ -72,24 +74,36 @@
     const total = slides.length;
     if (total < 2) return;
 
-    const label = carousel.getAttribute("aria-label") || "Fotos";
-    slides.forEach((s, n) => {
-      s.setAttribute("aria-roledescription", "foto");
-      if (!s.alt) s.alt = `${label.replace(/^Fotos (de|del) /, "")}, foto ${n + 1}`;
-      if (n > 0) s.setAttribute("aria-hidden", "true");
-    });
+    // Fotos sin alt propio: se nombran con el título del programa
+    const unnamed = slides.filter((s) => !s.alt);
+    slides.forEach((s, n) => { if (n > 0) s.setAttribute("aria-hidden", "true"); });
 
     carousel.insertAdjacentHTML("beforeend", `
       <div class="carousel__shade" aria-hidden="true"></div>
-      <button type="button" class="carousel__btn carousel__btn--prev" aria-label="Foto anterior">${chevron("prev")}</button>
-      <button type="button" class="carousel__btn carousel__btn--next" aria-label="Foto siguiente">${chevron("next")}</button>
+      <button type="button" class="carousel__btn carousel__btn--prev">${chevron("prev")}</button>
+      <button type="button" class="carousel__btn carousel__btn--next">${chevron("next")}</button>
       <div class="carousel__bar">
-        <div class="carousel__dots">${slides.map((_, n) => `<button type="button" class="carousel__dot" aria-label="Ver foto ${n + 1} de ${total}"></button>`).join("")}</div>
+        <div class="carousel__dots">${slides.map(() => `<button type="button" class="carousel__dot"></button>`).join("")}</div>
         <span class="carousel__count" aria-hidden="true"><span data-current>01</span> / ${pad(total)}</span>
       </div>`);
 
     const dots = [...carousel.querySelectorAll(".carousel__dot")];
     const current = carousel.querySelector("[data-current]");
+    const title = carousel.closest(".program")?.querySelector(".program__title");
+
+    const label = () => {
+      carousel.setAttribute("aria-roledescription", t("carousel"));
+      const name = title ? title.textContent.trim() : "";
+      slides.forEach((s, n) => {
+        s.setAttribute("aria-roledescription", t("carousel.photo"));
+        if (unnamed.includes(s)) s.alt = t("carousel.alt", { name, n: n + 1 });
+      });
+      carousel.querySelector(".carousel__btn--prev").setAttribute("aria-label", t("carousel.prev"));
+      carousel.querySelector(".carousel__btn--next").setAttribute("aria-label", t("carousel.next"));
+      dots.forEach((d, n) => d.setAttribute("aria-label", t("carousel.goto", { n: n + 1, total })));
+    };
+    label();
+    document.addEventListener("langchange", label);
     carousel.style.setProperty("--dur", DURATION + "ms");
 
     let index = 0;
@@ -259,15 +273,16 @@
       const results = fields.map(validateField);
       if (results.includes(false)) {
         fields[results.indexOf(false)].focus();
-        setStatus("Revisá los campos marcados.", "error");
+        setStatus(t("form.check"), "error");
         return;
       }
       if (form.elements._honey.value) return; // bot
 
       form.classList.add("is-sending");
-      setStatus("Enviando…");
+      setStatus(t("form.sending"));
       const data = Object.fromEntries(new FormData(form));
       data._replyto = data.correo;
+      if (window.i18n && window.i18n.lang === "en") data.idioma = "Inglés";
 
       // El servicio de envío a veces tarda mucho en responder aunque el mensaje
       // llega igual. Si no contesta en WAIT_MS damos el envío por hecho y la
@@ -288,7 +303,7 @@
       const showOk = () => {
         form.reset();
         setStatus("");
-        openModal("ok", "Mensaje enviado", "Gracias por escribirnos. Nos pondremos en contacto a la brevedad.");
+        openModal("ok", t("modal.ok.title"), t("modal.ok.text"));
       };
 
       try {
@@ -296,11 +311,7 @@
         showOk(result);
       } catch (err) {
         setStatus("");
-        openModal(
-          "error",
-          "No pudimos enviar el mensaje",
-          'Probá de nuevo en unos minutos, o escribinos a <a href="mailto:cusillos@cusillos.com.ar">cusillos@cusillos.com.ar</a> o por <a href="https://wa.me/5493813983953" target="_blank" rel="noopener">WhatsApp</a>.'
-        );
+        openModal("error", t("modal.err.title"), t("modal.err.text"));
       } finally {
         form.classList.remove("is-sending");
       }
