@@ -318,5 +318,94 @@
     });
   }
 
+  /* ---------- Mapa de zonas: lista y pines se resaltan juntos ---------- */
+  const zones = document.querySelectorAll(".zone[data-pin]");
+  const pinOf = (id) => document.querySelector(`.pin[data-pin="${id}"]`);
+  const hot = (id, on) => {
+    document.querySelectorAll(`[data-pin="${id}"]`).forEach((el) => el.classList.toggle("is-hot", on));
+  };
+  zones.forEach((z) => {
+    const id = z.dataset.pin;
+    if (!pinOf(id)) return;
+    ["pointerenter", "focus"].forEach((ev) => z.addEventListener(ev, () => hot(id, true)));
+    ["pointerleave", "blur"].forEach((ev) => z.addEventListener(ev, () => hot(id, false)));
+    pinOf(id).addEventListener("pointerenter", () => hot(id, true));
+    pinOf(id).addEventListener("pointerleave", () => hot(id, false));
+  });
+
+  /* ---------- Formulario de empleo ---------- */
+  const jobs = document.getElementById("jobs-form");
+  if (jobs) {
+    const status = jobs.querySelector(".form__status");
+    const fileInput = jobs.elements.attachment;
+    const fileBox = fileInput.closest(".file");
+    const fileName = fileBox.querySelector(".file__name");
+    const MAX_MB = 5;
+    const fileOk = () => {
+      const f = fileInput.files[0];
+      return !!f && f.size <= MAX_MB * 1024 * 1024 && /\.(pdf|docx?)$/i.test(f.name);
+    };
+    const checks = {
+      nombre: (el) => el.value.trim().length > 1,
+      telefono: (el) => el.value.replace(/\D/g, "").length >= 6,
+      correo: (el) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim()),
+      attachment: fileOk,
+    };
+    const validate = (el) => {
+      const ok = checks[el.name](el);
+      const field = el.closest(".field");
+      field.classList.toggle("is-invalid", !ok);
+      el.setAttribute("aria-invalid", String(!ok));
+      return ok;
+    };
+    Object.keys(checks).forEach((name) => {
+      const el = jobs.elements[name];
+      el.addEventListener("blur", () => { if (el.value) validate(el); });
+      el.addEventListener("input", () => { if (el.closest(".field").classList.contains("is-invalid")) validate(el); });
+    });
+
+    const showFile = () => {
+      const f = fileInput.files[0];
+      fileBox.classList.toggle("has-file", !!f);
+      fileName.textContent = f ? `${f.name} · ${(f.size / 1024 / 1024).toFixed(1).replace(".", ",")} MB` : t("jobs.cv.empty");
+      if (f) validate(fileInput);
+    };
+    fileInput.addEventListener("change", showFile);
+    document.addEventListener("langchange", () => { if (fileInput.files[0]) showFile(); });
+
+    jobs.addEventListener("submit", (e) => {
+      const fields = Object.keys(checks).map((n) => jobs.elements[n]);
+      const results = fields.map(validate);
+      if (results.includes(false)) {
+        e.preventDefault();
+        fields[results.indexOf(false)].focus();
+        status.textContent = t("form.check");
+        status.className = "form__status is-error";
+        return;
+      }
+      if (jobs.elements._honey.value) { e.preventDefault(); return; } // bot
+      // El CV viaja como envío común del formulario (el servicio solo admite archivos así)
+      // y vuelve a esta página con ?postulacion=ok
+      const back = new URL(location.pathname, location.origin);
+      back.searchParams.set("postulacion", "ok");
+      if (window.i18n && window.i18n.lang === "en") back.searchParams.set("lang", "en");
+      back.hash = "empleo";
+      jobs.elements._next.value = back.href;
+      jobs.classList.add("is-sending");
+      status.textContent = t("jobs.sending");
+      status.className = "form__status";
+    });
+    window.addEventListener("pageshow", () => jobs.classList.remove("is-sending"));
+  }
+
+  // Vuelta del envío de la postulación
+  const params = new URLSearchParams(location.search);
+  if (params.get("postulacion") === "ok") {
+    params.delete("postulacion");
+    const clean = location.pathname + (params.toString() ? "?" + params : "") + location.hash;
+    history.replaceState(history.state, "", clean);
+    openModal("ok", t("jobs.ok.title"), t("jobs.ok.text"));
+  }
+
   document.getElementById("year").textContent = new Date().getFullYear();
 })();

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<title>Reporte de Sustentabilidad · Cusillos S.A.</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Raleway:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --teal: #004b55; --teal-950: #002c33; --rust: #b5541e; --orange: #ed6f2d; --gold: #f0ad3f;
+    --ink: #1f2a2c; --ink-soft: #4a5759; --paper-warm: #f6f3ee; --line: rgba(0,75,85,0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Montserrat", sans-serif; font-size: 10.5pt; line-height: 1.6; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { font-family: "Raleway", sans-serif; font-weight: 600; margin: 0; line-height: 1.15; }
+  p { margin: 0; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  img { display: block; max-width: 100%; }
+
+  .page { position: relative; width: 210mm; height: 297mm; overflow: hidden; page-break-after: always; break-after: page; padding: 20mm 18mm 22mm; }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  .folio { position: absolute; left: 18mm; right: 18mm; bottom: 10mm; display: flex; justify-content: space-between; font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 3mm; }
+  .eyebrow { font-size: 8pt; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal); margin-bottom: 4mm; }
+  .eyebrow::before { content: "// "; color: var(--orange); }
+  .h2 { font-size: 21pt; color: var(--teal); letter-spacing: -0.01em; margin-bottom: 7mm; max-width: 150mm; }
+  .lead { font-size: 11.5pt; line-height: 1.65; color: var(--ink-soft); max-width: 150mm; }
+  .soft { color: var(--ink-soft); }
+
+  /* Portada */
+  .cover { padding: 0; color: #fff; background: var(--teal); }
+  .cover__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,44,51,0.35) 0%, rgba(0,44,51,0.15) 35%, rgba(0,44,51,0.88) 72%, rgba(0,44,51,0.97) 100%); }
+  .cover__inner { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 20mm 18mm 18mm; }
+  .cover__logo { width: 34mm; }
+  .cover__kicker { font-size: 9pt; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 5mm; }
+  .cover__title { font-size: 40pt; line-height: 1.04; letter-spacing: -0.02em; max-width: 150mm; }
+  .cover__sub { margin-top: 7mm; font-size: 12.5pt; line-height: 1.55; color: rgba(255,255,255,0.88); max-width: 135mm; }
+  .cover__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin-top: 14mm; padding-top: 6mm; border-top: 1px solid rgba(255,255,255,0.22); font-size: 9pt; color: rgba(255,255,255,0.8); }
+  .cover__facts strong { display: block; font-family: "Raleway", sans-serif; font-size: 13pt; color: #fff; margin-bottom: 1mm; }
+
+  /* Quiénes somos */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; }
+  .card { border-radius: 3mm; padding: 7mm; }
+  .card--teal { background: var(--teal); color: #fff; }
+  .card--rust { background: var(--rust); color: #fff; }
+  .card--warm { background: var(--paper-warm); }
+  .card h3 { font-size: 14pt; margin-bottom: 3mm; }
+  .card--teal h3, .card--rust h3 { color: #fff; }
+  .card--teal p, .card--rust p { color: rgba(255,255,255,0.9); }
+  .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5mm; margin-top: 7mm; border-top: 1px solid var(--line); padding-top: 6mm; }
+  .values h3 { font-size: 11.5pt; color: var(--orange); margin-bottom: 1.5mm; }
+  .values p { font-size: 9pt; color: var(--ink-soft); line-height: 1.5; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin: 7mm 0; }
+  .pillars div { border-top: 2px solid var(--gold); padding-top: 3mm; }
+  .pillars h3 { font-size: 12pt; color: var(--teal); margin-bottom: 1.5mm; }
+  .pillars p { font-size: 9.2pt; color: var(--ink-soft); line-height: 1.5; }
+  .photo { border-radius: 3mm; overflow: hidden; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Producción */
+  .crops { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2.5mm; margin: 7mm 0 9mm; }
+  .crop { position: relative; height: 26mm; border-radius: 2mm; overflow: hidden; }
+  .crop img { width: 100%; height: 100%; object-fit: cover; }
+  .crop span { position: absolute; left: 2mm; bottom: 1.6mm; font-size: 7pt; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+  .crop::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(0,44,51,0.75)); }
+  .zones { display: grid; grid-template-columns: 70mm 1fr; gap: 8mm; align-items: start; }
+  .zone { padding: 3.2mm 0; border-bottom: 1px solid var(--line); display: flex; gap: 3mm; }
+  .zone:first-child { border-top: 1px solid var(--line); }
+  .zone i { flex-shrink: 0; width: 3mm; height: 3mm; margin-top: 1.4mm; border-radius: 50%; background: var(--orange); }
+  .zone--office i { border-radius: 0.6mm; background: var(--teal); }
+  .zone strong { display: block; font-family: "Raleway", sans-serif; font-size: 11pt; color: var(--teal); }
+  .zone small { font-size: 8.5pt; color: var(--ink-soft); }
+  .mapbox { border-radius: 3mm; overflow: hidden; background: #eef3f2; }
+  .mapbox svg { display: block; width: 100%; height: auto; }
+  .map__land { fill: #e2e9e7; stroke: #fff; stroke-width: 1.2; stroke-linejoin: round; }
+  .map__land--focus { fill: #fff; stroke: rgba(0,75,85,0.55); stroke-width: 1.6; }
+  .map__prov { font: 500 11px/1 "Montserrat", sans-serif; letter-spacing: 0.16em; text-transform: uppercase; fill: rgba(0,75,85,0.38); text-anchor: middle; }
+  .map__prov--focus { font-weight: 600; fill: rgba(0,75,85,0.62); }
+  .map__mini { fill: #dde5e3; stroke: #fff; stroke-width: 0.5; }
+  .map__mini--focus { fill: var(--teal); }
+  .map__card { fill: #fff; }
+  .map__box { fill: none; stroke: var(--orange); stroke-width: 1.6; }
+  .pin__dot { fill: var(--orange); stroke: #fff; stroke-width: 2.5; }
+  .pin--office .pin__dot { fill: var(--teal); }
+  .pin__halo { fill: rgba(237,111,45,0.2); }
+  .pin--office .pin__halo { fill: rgba(0,75,85,0.16); }
+  .pin__label { font: 600 13px/1 "Montserrat", sans-serif; fill: var(--teal-950); paint-order: stroke; stroke: rgba(255,255,255,0.9); stroke-width: 4px; stroke-linejoin: round; }
+  .note { margin-top: 3mm; font-size: 7.5pt; color: var(--ink-soft); }
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6mm; margin-top: 9mm; }
+  .how div { background: var(--paper-warm); border-radius: 3mm; padding: 5mm; }
+  .how h3 { font-size: 11.5pt; color: var(--teal); margin-bottom: 1.5mm; }
+  .how p { font-size: 9pt; color: var(--ink-soft); line-height: 1.5; }
+
+  /* Certificaciones */
+  .certs { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 4mm; }
+  .cert { border: 1px solid var(--line); border-radius: 3mm; padding: 7mm; }
+  .cert__top { display: flex; justify-content: space-between; align-items: flex-start; height: 24mm; margin-bottom: 6mm; }
+  .cert__top img { height: 100%; width: auto; }
+  .cert__top img.wide { height: 15mm; }
+  .since { padding: 1.5mm 3mm; border-radius: 10mm; background: rgba(240,173,63,0.18); color: #8a5a0b; font-size: 7pt; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+  .cert h3 { font-size: 15pt; color: var(--teal); }
+  .cert .org { font-size: 8pt; color: var(--ink-soft); margin: 1mm 0 4mm; }
+  .cert p.desc { font-size: 9.5pt; color: var(--ink-soft); }
+  .checks { margin-top: 5mm; padding-top: 4mm; border-top: 1px solid var(--line); display: grid; gap: 2.4mm; }
+  .checks li { display: flex; gap: 2.5mm; font-size: 9.2pt; line-height: 1.45; }
+  .checks li::before { content: ""; flex-shrink: 0; width: 3.6mm; height: 3.6mm; margin-top: 0.5mm; background: no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ed6f2d' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+  .audit { margin-top: 9mm; display: flex; gap: 6mm; align-items: center; background: var(--teal); color: #fff; border-radius: 3mm; padding: 7mm; }
+  .audit strong { font-family: "Raleway", sans-serif; font-size: 30pt; color: var(--gold); line-height: 1; }
+  .audit p { font-size: 10pt; color: rgba(255,255,255,0.9); }
+
+  /* Programas */
+  .program { display: grid; grid-template-columns: 82mm 1fr; gap: 8mm; align-items: start; }
+  .program + .program { margin-top: 12mm; padding-top: 12mm; border-top: 1px solid var(--line); }
+  .program .photo { height: 64mm; }
+  .program h3 { font-size: 17pt; color: var(--teal); margin-bottom: 1.5mm; }
+  .program .tag { font-weight: 600; color: #d65d1f; margin-bottom: 3.5mm; }
+  .program p + p { margin-top: 3mm; }
+  .program p:not(.tag) { font-size: 9.8pt; color: var(--ink-soft); }
+  .program--stack { grid-template-columns: 1fr; gap: 6mm; }
+  .program--stack .photo { height: 54mm; }
+  .program--stack + .program--stack { margin-top: 9mm; padding-top: 9mm; }
+  .pill { display: inline-block; margin-bottom: 3mm; font-size: 7pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal); background: rgba(0,75,85,0.08); padding: 1.2mm 2.6mm; border-radius: 10mm; }
+
+  /* Contratapa */
+  .back { background: var(--teal); color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
+  .back .h2 { color: #fff; }
+  .back__list { display: grid; gap: 5mm; margin-top: 10mm; font-size: 12pt; }
+  .back__list small { display: block; font-size: 7.5pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  .back__logo { width: 30mm; }
+  .back__foot { display: flex; justify-content: space-between; align-items: flex-end; font-size: 8pt; color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<section class="page cover">
+  <img class="cover__img" src="../assets/img/hero.jpg" alt="">
+  <div class="cover__inner">
+    <img class="cover__logo" src="../assets/img/logo-cusillos-blanco.svg" alt="Cusillos S.A.">
+    <div>
+      <p class="cover__kicker">Edición {{ANIO}}</p>
+      <h1 class="cover__title">Reporte de Sustentabilidad</h1>
+      <p class="cover__sub">Cómo producimos alimentos en el Norte Argentino y qué hacemos para cuidar el ambiente y acompañar a las comunidades donde trabajamos.</p>
+      <div class="cover__facts">
+        <p><strong>Desde 1997</strong>en la producción agrícola</p>
+        <p><strong>Tres provincias</strong>Salta, Santiago del Estero y Tucumán</p>
+        <p><strong>RTRS y FSA</strong>certificados desde 2014</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Quiénes somos -->
+<section class="page">
+  <p class="eyebrow">Quiénes somos</p>
+  <h2 class="h2">Una agro empresa que genera oportunidades para el crecimiento sustentable de sus accionistas y de su entorno.</h2>
+  <div class="two">
+    <div>
+      <p class="lead">Fundada en 1997 por un grupo de ingenieros agrónomos, Cusillos SA opera hoy con un directorio profesional y equipos estables en cada zona de producción.</p>
+      <p class="lead" style="margin-top:4mm">Junto a Garmat SA entendemos la actividad como un negocio de largo plazo: en el corto plazo el riesgo es alto, en el largo plazo el riesgo tiende a cero.</p>
+    </div>
+    <div class="photo" style="height:54mm"><img src="../assets/img/nosotros.jpg" alt=""></div>
+  </div>
+  <div class="pillars">
+    <div><h3>Resilientes</h3><p>Nos adaptamos a los distintos escenarios y a los cambios en las reglas de juego.</p></div>
+    <div><h3>Dinámicos</h3><p>Nos adaptamos a los vaivenes del negocio, aprendemos y desaprendemos.</p></div>
+    <div><h3>Innovadores</h3><p>Incorporamos nuevas tecnologías y trabajamos en la mejora continua de procesos.</p></div>
+  </div>
+  <div class="two">
+    <div class="card card--teal"><h3>Misión</h3><p><strong>Generamos valor.</strong> Nuestro propósito es generar valor económico, social y ambiental mediante la mejora continua y la innovación. Creamos oportunidades para nuestro entorno, construyendo una empresa capaz de evolucionar y trascender generaciones.</p></div>
+    <div class="card card--rust"><h3>Visión</h3><p>Ser la mejor opción para nuestros clientes y socios estratégicos. Nos distinguiremos por nuestra capacidad de adaptación, transparencia y eficiencia.</p></div>
+  </div>
+  <div class="values">
+    <div><h3>Respeto</h3><p>Profundo, al escuchar al otro y aceptar sus diferencias.</p></div>
+    <div><h3>Honestidad</h3><p>Transparencia, coherencia, integridad, claridad.</p></div>
+    <div><h3>Compromiso</h3><p>Confianza, lealtad, perseverancia.</p></div>
+    <div><h3>Profesionalismo</h3><p>Excelencia, pensar en el largo plazo, armar equipos.</p></div>
+  </div>
+  <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>02</span></div>
+</section>
+
+<!-- 3 · Producción y zonas -->
+<section class="page">
+  <p class="eyebrow">Producción</p>
+  <h2 class="h2">Nos dedicamos a la producción de alimentos.</h2>
+  <p class="lead">Producimos granos y legumbres en el Norte Argentino, combinando rotaciones planificadas, manejo profesional y equipos locales para obtener alimentos de calidad, campaña tras campaña.</p>
+  <div class="crops">
+    <div class="crop"><img src="../assets/img/soja.jpg" alt=""><span>Soja</span></div>
+    <div class="crop"><img src="../assets/img/maiz.jpg" alt=""><span>Maíz</span></div>
+    <div class="crop"><img src="../assets/img/trigo.jpg" alt=""><span>Trigo</span></div>
+    <div class="crop"><img src="../assets/img/poroto.jpg" alt=""><span>Poroto</span></div>
+    <div class="crop"><img src="../assets/img/garbanzo.jpg" alt=""><span>Garbanzo</span></div>
+    <div class="crop"><img src="../assets/img/colza.jpg" alt=""><span>Colza</span></div>
+  </div>
+  <div class="zones">
+    <div>
+      <p class="eyebrow">Dónde producimos</p>
+      <ul>
+        <li class="zone"><i></i><span><strong>Finca Los Cebiles</strong><small>Ruta Nacional 34, km 921 · Antillas, Salta</small></span></li>
+        <li class="zone"><i></i><span><strong>Finca Los Gurises</strong><small>Ruta Nacional 34, km 884 · Rapelli, Santiago del Estero</small></span></li>
+        <li class="zone"><i></i><span><strong>Finca Medialuna</strong><small>Ruta Provincial 4 · Pellegrini, Santiago del Estero</small></span></li>
+        <li class="zone zone--office"><i></i><span><strong>Oficina central</strong><small>Av. Perón 2300 · Yerba Buena, Tucumán</small></span></li>
+      </ul>
+      <p class="note">Mapa ilustrativo. Las ubicaciones son aproximadas.</p>
+    </div>
+    <div class="mapbox">{{MAPA}}</div>
+  </div>
+  <p class="eyebrow" style="margin-top:10mm">Cómo producimos</p>
+  <div class="how" style="margin-top:0">
+    <div><h3>Agricultura certificada</h3><p>Producimos bajo estándares certificados respetando las normas.</p></div>
+    <div><h3>Tecnología y procesos</h3><p>La productividad se construye con aplicación de tecnología, conocimiento y procesos definidos en cada etapa.</p></div>
+    <div><h3>Zonas de producción</h3><p>Operamos en Salta, Santiago del Estero y Tucumán con equipos de trabajo radicados en cada región.</p></div>
+  </div>
+  <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>03</span></div>
+</section>
+
+<!-- 4 · Cómo producimos y certificaciones -->
+<section class="page">
+  <p class="eyebrow">Certificaciones</p>
+  <h2 class="h2">Producción certificada desde 2014.</h2>
+  <p class="lead">Hace más de diez años que trabajamos bajo dos estándares internacionales de sustentabilidad. Cada campaña los verifican auditores externos e independientes, en el campo y en nuestros registros.</p>
+  <div class="certs" style="margin-top:10mm">
+    <div class="cert">
+      <div class="cert__top"><img src="../assets/img/logo-rtrs.png" alt="RTRS"><span class="since">Desde 2014</span></div>
+      <h3>Soja responsable</h3>
+      <p class="org">Round Table on Responsible Soy</p>
+      <p class="desc">Estándar internacional que certifica que la soja se produce de manera responsable en lo ambiental, lo social y lo económico.</p>
+      <ul class="checks">
+        <li>Sin deforestación ni conversión de ambientes naturales</li>
+        <li>Buenas prácticas agrícolas y uso responsable de fitosanitarios</li>
+        <li>Condiciones laborales justas y seguras</li>
+        <li>Buena relación con las comunidades vecinas</li>
+      </ul>
+    </div>
+    <div class="cert">
+      <div class="cert__top"><img class="wide" src="../assets/img/logo-fsa.png" alt="FSA"><span class="since">Desde 2014</span></div>
+      <h3>Sustentabilidad en finca</h3>
+      <p class="org">Farm Sustainability Assessment · SAI Platform</p>
+      <p class="desc">Herramienta que usa la industria global de alimentos y bebidas para evaluar cómo se produce en el campo y elegir a sus proveedores.</p>
+      <ul class="checks">
+        <li>Cuidado del suelo, el agua y la biodiversidad</li>
+        <li>Manejo responsable de nutrientes y fitosanitarios</li>
+        <li>Salud, seguridad y derechos de quienes trabajan</li>
+        <li>Gestión profesional y viabilidad económica de la finca</li>
+      </ul>
+    </div>
+  </div>
+  <div class="audit"><strong>2014</strong><p>Año en que obtuvimos nuestras primeras certificaciones internacionales. Desde entonces las mantenemos campaña tras campaña, con auditorías externas e independientes.</p></div>
+  <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>04</span></div>
+</section>
+
+<!-- 5 · Programas sociales -->
+<section class="page">
+  <p class="eyebrow">Responsabilidad social y ambiental</p>
+  <h2 class="h2">Tres pilares enmarcan nuestro trabajo: económico, social y ambiental.</h2>
+  <div class="program">
+    <div class="photo"><img src="../assets/img/jornadas.jpg" alt=""></div>
+    <div>
+      <span class="pill">Social · Educación</span>
+      <h3>Jornadas a Campo</h3>
+      <p class="tag">El valor del Trabajo y la Producción.</p>
+      <p>Abrimos nuestros establecimientos para recibir a los jóvenes de las escuelas secundarias, construyendo un puente entre la educación y el motor productivo de la región, visibilizando las demandas del sector en cuanto a entrenamiento laboral.</p>
+      <p>Creemos que para dimensionar el valor de la actividad es necesario conocerla desde adentro. Por eso, esta experiencia tiene protagonistas únicos: los mismos equipos de trabajo de campo.</p>
+    </div>
+  </div>
+  <div class="program">
+    <div class="photo"><img src="../assets/img/habitat.jpg" alt=""></div>
+    <div>
+      <span class="pill">Social · Vivienda</span>
+      <h3>Proyecto Hábitat</h3>
+      <p class="tag">Mejorar el lugar donde viven nuestras familias.</p>
+      <p>Una vivienda mejorada es también una oportunidad para mejorar la vida cotidiana de quienes la habitan. Durante el período relevado se desarrollaron intervenciones en distintos territorios, alcanzando a distintas familias.</p>
+      <p>Las obras contemplaron diferentes tipos de intervención, de acuerdo con las necesidades de cada familia: refacción, ampliación, terminaciones y construcción de viviendas nuevas.</p>
+    </div>
+  </div>
+  <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>05</span></div>
+</section>
+
+<!-- 6 · Programas ambientales -->
+<section class="page">
+  <div class="program program--stack">
+    <div class="photo"><img src="../assets/img/bosque.jpg" alt=""></div>
+    <div>
+      <span class="pill">Ambiental · Biodiversidad</span>
+      <h3>Bosque Escuela</h3>
+      <p class="tag">Sembrar futuro.</p>
+      <p>En articulación con la Red de Empresas por la Sustentabilidad de Bosque Modelo, se desarrollan acciones de forestación y plantación de especies nativas, articulando el trabajo dentro de las fincas con iniciativas junto a las comunidades.</p>
+      <p>Promovemos la educación ambiental y visibilizamos, al mismo tiempo, las acciones de sustentabilidad y sostenibilidad de la empresa.</p>
+    </div>
+  </div>
+  <div class="program program--stack">
+    <div class="photo"><img src="../assets/img/phytobac.jpg" alt=""></div>
+    <div>
+      <span class="pill">Ambiental · Suelo y agua</span>
+      <h3>Phytobac</h3>
+      <p class="tag">Cuidar el suelo y el agua.</p>
+      <p>Instalamos sistemas Phytobac para el tratamiento biológico de los efluentes generados en el lavado de equipos de aplicación.</p>
+      <p>Los restos de fitosanitarios se degradan en un lecho de tierra y materia orgánica, evitando que lleguen al suelo y a las napas.</p>
+    </div>
+  </div>
+  <div class="folio"><span>Cusillos S.A. · Reporte de Sustentabilidad</span><span>06</span></div>
+</section>
+
+<!-- 7 · Contratapa -->
+<section class="page back">
+  <div>
+    <p class="eyebrow" style="color:#fff">Contacto</p>
+    <h2 class="h2">Escribinos y te respondemos.</h2>
+    <div class="back__list">
+      <p><small>WhatsApp</small>381 398-3953</p>
+      <p><small>Correo</small>cusillos@cusillos.com.ar</p>
+      <p><small>Oficina</small>Av. Perón 2300 · Yerba Buena · Tucumán</p>
+      <p><small>Web e Instagram</small>www.cusillos.com.ar · @cusillossa</p>
+    </div>
+  </div>
+  <div class="back__foot">
+    <img class="back__logo" src="../assets/img/logo-cusillos-blanco.svg" alt="Cusillos S.A.">
+    <span>© {{ANIO}} Cusillos S.A.</span>
+  </div>
+</section>
+
+</body>
+</html>
