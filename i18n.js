@@ -169,12 +169,14 @@
     "jobs.zone": "Location",
     "jobs.zone.any": "Any",
     "jobs.cv": "CV",
-    "jobs.cv.empty": "Choose a PDF or Word file, up to 5 MB",
-    "jobs.cv.err": "Please attach your CV as a PDF or Word file, up to 5 MB.",
+    "jobs.cv.empty": "Choose a PDF or Word file, up to 4 MB",
+    "jobs.cv.err": "Please attach your CV as a PDF or Word file, up to 4 MB.",
     "jobs.message": 'Message <span class="field__opt">(optional)</span>',
     "jobs.send": "Send application",
     "jobs.sending": "Sending your application…",
     "jobs.ok.title": "Application sent",
+    "jobs.err.title": "We couldn’t send your application",
+    "jobs.err.text": 'Please try again in a few minutes, or email your CV to <a href="mailto:cusillos@cusillos.com.ar?subject=Application">cusillos@cusillos.com.ar</a>.',
     "jobs.ok.text": "Thank you for your interest in Cusillos. We will contact you if a position matches your profile.",
 
     "footer.jobs": "Work with us",
@@ -223,9 +225,11 @@
 
   // Textos que solo existen en JavaScript (el resto del español sale del HTML)
   const ES = {
-    "jobs.cv.empty": "Elegí un archivo PDF o Word, de hasta 5 MB",
+    "jobs.cv.empty": "Elegí un archivo PDF o Word, de hasta 4 MB",
     "jobs.sending": "Enviando tu postulación…",
     "jobs.ok.title": "Postulación enviada",
+    "jobs.err.title": "No pudimos enviar tu postulación",
+    "jobs.err.text": 'Probá de nuevo en unos minutos, o mandá tu CV por correo a <a href="mailto:cusillos@cusillos.com.ar?subject=Postulaci%C3%B3n">cusillos@cusillos.com.ar</a>.',
     "jobs.ok.text": "Gracias por tu interés en Cusillos. Si se abre una búsqueda que coincide con tu perfil, te vamos a contactar.",
     "form.check": "Revisá los campos marcados.",
     "form.sending": "Enviando…",

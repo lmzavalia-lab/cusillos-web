@@ -216,6 +216,27 @@
     });
   }
 
+  /* ---------- Envío propio (función de Vercel con Resend) ---------- */
+  // Devuelve "ok", "fallback" (la función no existe o no tiene la clave cargada:
+  // se usa FormSubmit como antes) o lanza un error si el envío falló.
+  const sendViaApi = async (formData, timeoutMs = 45000) => {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    let res;
+    try {
+      res = await fetch("/api/enviar", { method: "POST", body: formData, signal: ctrl.signal });
+    } catch (err) {
+      if (err.name === "AbortError") throw err;
+      return "fallback"; // sin conexión con la función
+    } finally {
+      clearTimeout(timer);
+    }
+    if ([404, 405, 501, 503].includes(res.status)) return "fallback";
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok || !body.ok) throw new Error(body.error || "error " + res.status);
+    return "ok";
+  };
+
   /* ---------- Popup ---------- */
   const modal = document.getElementById("form-modal");
   const openModal = (type, title, html) => {
@@ -284,14 +305,23 @@
       data._replyto = data.correo;
       if (window.i18n && window.i18n.lang === "en") data.idioma = "Inglés";
 
-      // FormSubmit a veces tarda más de un minuto en contestar. Esperamos la respuesta
-      // real (sin dar el envío por hecho) y avisamos que puede demorar.
+      // Primero la función propia; si todavía no está configurada, FormSubmit
+      // (que a veces tarda más de un minuto: esperamos la respuesta real y avisamos).
       const TIMEOUT_MS = 120000;
       const ctrl = new AbortController();
       const slow = setTimeout(() => setStatus(t("form.slow")), 6000);
       const giveUp = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 
       try {
+        const fd = new FormData();
+        Object.entries(data).forEach(([k, v]) => fd.append(k, v));
+        fd.append("tipo", "contacto");
+        if ((await sendViaApi(fd)) === "ok") {
+          form.reset();
+          setStatus("");
+          openModal("ok", t("modal.ok.title"), t("modal.ok.text"));
+          return;
+        }
         const res = await fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
           method: "POST",
           signal: ctrl.signal,
@@ -342,7 +372,7 @@
     const fileInput = jobs.elements.attachment;
     const fileBox = fileInput.closest(".file");
     const fileName = fileBox.querySelector(".file__name");
-    const MAX_MB = 5;
+    const MAX_MB = 4;
     const fileOk = () => {
       const f = fileInput.files[0];
       return !!f && f.size <= MAX_MB * 1024 * 1024 && /\.(pdf|docx?)$/i.test(f.name);
@@ -375,28 +405,52 @@
     fileInput.addEventListener("change", showFile);
     document.addEventListener("langchange", () => { if (fileInput.files[0]) showFile(); });
 
-    jobs.addEventListener("submit", (e) => {
+    jobs.addEventListener("submit", async (e) => {
+      e.preventDefault();
       const fields = Object.keys(checks).map((n) => jobs.elements[n]);
       const results = fields.map(validate);
       if (results.includes(false)) {
-        e.preventDefault();
         fields[results.indexOf(false)].focus();
         status.textContent = t("form.check");
         status.className = "form__status is-error";
         return;
       }
-      if (jobs.elements._honey.value) { e.preventDefault(); return; } // bot
-      // El CV viaja como envío común del formulario (el servicio solo admite archivos así)
-      // y vuelve a esta página con ?postulacion=ok
-      const back = new URL(location.pathname, location.origin);
-      back.searchParams.set("postulacion", "ok");
-      if (window.i18n && window.i18n.lang === "en") back.searchParams.set("lang", "en");
-      back.hash = "empleo";
-      jobs.elements._next.value = back.href;
+      if (jobs.elements._honey.value) return; // bot
+
       jobs.classList.add("is-sending");
       status.textContent = t("jobs.sending");
       status.className = "form__status";
-      setTimeout(() => { if (jobs.classList.contains("is-sending")) status.textContent = t("jobs.slow"); }, 6000);
+      const slow = setTimeout(() => { if (jobs.classList.contains("is-sending")) status.textContent = t("jobs.slow"); }, 6000);
+      const en = window.i18n && window.i18n.lang === "en";
+
+      try {
+        const fd = new FormData(jobs);
+        fd.append("tipo", "postulacion");
+        if (en) fd.append("idioma", "Inglés");
+        if ((await sendViaApi(fd, 90000)) === "ok") {
+          clearTimeout(slow);
+          jobs.reset();
+          showFile();
+          jobs.classList.remove("is-sending");
+          status.textContent = "";
+          openModal("ok", t("jobs.ok.title"), t("jobs.ok.text"));
+          return;
+        }
+        // Respaldo: FormSubmit solo acepta archivos con un envío común del formulario,
+        // que vuelve a esta página con ?postulacion=ok
+        const back = new URL(location.pathname, location.origin);
+        back.searchParams.set("postulacion", "ok");
+        if (en) back.searchParams.set("lang", "en");
+        back.hash = "empleo";
+        jobs.elements._next.value = back.href;
+        HTMLFormElement.prototype.submit.call(jobs);
+      } catch (err) {
+        console.warn("[postulación] El envío falló:", err.message);
+        clearTimeout(slow);
+        jobs.classList.remove("is-sending");
+        status.textContent = "";
+        openModal("error", t("jobs.err.title"), t("jobs.err.text"));
+      }
     });
     window.addEventListener("pageshow", () => jobs.classList.remove("is-sending"));
   }
