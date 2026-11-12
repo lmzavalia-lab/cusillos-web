@@ -61,7 +61,7 @@
     "values.4.p": "Excellence, long-term thinking, team building.",
 
     "prod.title": "We are dedicated to food production.",
-    "prod.p": "We grow grains and pulses in Northern Argentina, combining planned crop rotations, professional management and local teams to deliver quality food, season after season.",
+    "prod.p": "We grow grains and pulses in Northern Argentina, combining planned crop rotations, professional management and local teams to deliver quality grain, season after season.",
     "crop.soja": "Soybean",
     "crop.soja.alt": "Soybean field",
     "crop.maiz": "Corn",
