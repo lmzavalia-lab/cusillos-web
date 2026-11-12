@@ -124,6 +124,8 @@
     "zones.lead": "We farm in Tucumán, Salta and Santiago del Estero, with our operations centred at these locations:",
     "zones.medialuna": "Provincial Route 4 · Pellegrini, Santiago del Estero",
     "zones.office": "Head office",
+    "zones.maps": "View on Google Maps",
+    "zones.maps.label": "View on Google Maps (opens in a new tab)",
     "zones.note": "The orange dots mark the main farmstead of each operation. Illustrative map, locations are approximate.",
     "zones.map": "Illustrative map showing Cusillos farms in Salta and Santiago del Estero and the office in Yerba Buena, Tucumán",
 
