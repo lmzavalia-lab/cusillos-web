@@ -362,33 +362,6 @@ html { scrollbar-color: var(--teal) transparent; }
 .zone.is-hot { background: var(--paper-warm); }
 .zone.is-hot .zone__dot { box-shadow: 0 0 0 7px rgba(237,111,45,0.22); }
 .zone--office.is-hot .zone__dot { box-shadow: 0 0 0 7px rgba(0,75,85,0.16); }
-.zone { position: relative; flex-wrap: wrap; row-gap: 0; }
-.zone > span:not(.zone__dot) { flex: 1 1 calc(100% - 40px); min-width: 0; }
-/* Botón "Ver en Google Maps" */
-.zone__maps {
-  display: inline-flex; align-items: center; gap: 6px;
-  margin: var(--s-2) 0 0 calc(12px + var(--s-4)); padding: 7px 12px; border-radius: 999px;
-  background: #fff; color: var(--teal); text-decoration: none;
-  font-size: 13px; font-weight: 600; white-space: nowrap;
-  box-shadow: 0 0 0 1px var(--line), 0 2px 6px -2px rgba(0,44,51,0.18);
-  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out), background-color 200ms, color 200ms;
-}
-.zone__maps svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.zone__maps:active { transform: scale(0.96); }
-/* Con mouse: al pasar por la fila, la dirección se desvanece y aparece el botón en su lugar */
-@media (hover: hover) and (pointer: fine) {
-  .zone small { transition: opacity 200ms var(--ease-out); }
-  .zone__maps {
-    position: absolute; left: calc(var(--s-2) + 12px + var(--s-4)); bottom: 12px; margin: 0;
-    padding: 4px 11px 4px 9px; font-size: 12.5px;
-    opacity: 0; transform: translateY(4px); pointer-events: none;
-  }
-  .zone:hover small, .zone:focus-within small, .zone.is-hot small { opacity: 0; }
-  .zone:hover .zone__maps, .zone:focus-within .zone__maps, .zone.is-hot .zone__maps {
-    opacity: 1; transform: none; pointer-events: auto;
-  }
-  .zone__maps:hover { background: var(--teal); color: #fff; }
-}
 .zones__note { margin-top: var(--s-5); font-size: 13px; color: var(--ink-soft); }
 .zones__map { grid-column: 7 / span 6; position: relative; border-radius: 12px; overflow: hidden; background: #eef3f2; box-shadow: inset 0 0 0 1px var(--line); }
 .map { display: block; width: 100%; height: auto; }
