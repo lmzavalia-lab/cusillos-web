@@ -151,7 +151,11 @@
 
     "report.eyebrow": "Sustainability magazines",
     "report.t": "Sustainability Actions 2025 / 2026",
-    "report.p": "A detailed look at our programmes with people, teams and the communities where we work. There is one magazine for each company in the group (in Spanish).",
+    "report.p": "A detailed look at our programmes with people, teams and the communities where we work. There is one magazine for each company in the group.",
+    "report.cusillos.href": "assets/docs/sustainability-magazine-cusillos-2025-2026-en.pdf",
+    "report.garmat.href": "assets/docs/sustainability-magazine-garmat-2025-2026-en.pdf",
+    "report.cusillos.cover": "assets/img/revista-cusillos-en.jpg",
+    "report.garmat.cover": "assets/img/revista-garmat-en.jpg",
     "report.btn": "Download",
 
     "jobs.title": "Join our teams.",
@@ -254,7 +258,7 @@
   };
 
   const LANGS = ["es", "en"];
-  const ATTRS = ["alt", "aria-label", "content", "href"];
+  const ATTRS = ["alt", "aria-label", "content", "href", "src"];
   // Guarda el español original de cada elemento para poder volver a él
   const nodes = [...document.querySelectorAll("[data-i18n]")].map((el) => ({ el, key: el.dataset.i18n, es: el.innerHTML }));
   const attrNodes = [];
