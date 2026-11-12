@@ -350,6 +350,16 @@
     });
   }
 
+  /* ---------- Logos del header y del footer: llevan arriba ---------- */
+  // El header es sticky, así que el ancla #top sola no siempre mueve la página.
+  document.querySelectorAll(".header__logo, .footer__logo").forEach((logo) => {
+    logo.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    });
+  });
+
   /* ---------- Envío propio (función de Vercel con Resend) ---------- */
   // Devuelve "ok", "fallback" (la función no existe o no tiene la clave cargada:
   // se usa FormSubmit como antes) o lanza un error si el envío falló.
