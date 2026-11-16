@@ -291,8 +291,8 @@ html { scrollbar-color: var(--teal) transparent; }
 .mv__title::after { content: ""; display: block; width: 48px; height: 2px; background: var(--gold); margin: var(--s-4) 0 var(--s-5); }
 .mv__panel p { font-size: 15.5px; line-height: 1.75; color: var(--ink-soft); }
 .mv__panel .mv__lead {
-  font-family: var(--font-head); font-size: clamp(28px, 2.6vw, 36px); font-weight: 600;
-  line-height: 1.15; letter-spacing: -0.015em; color: var(--teal); margin-bottom: var(--s-4);
+  font-family: var(--font-head); font-size: 19px; font-weight: 600;
+  line-height: 1.35; color: var(--teal); margin-bottom: var(--s-2);
 }
 .mv__panel strong { color: var(--ink); font-weight: 600; }
 .mv__panel--rust { background: var(--rust); color: #fff; }
