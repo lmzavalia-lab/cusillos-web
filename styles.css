@@ -458,6 +458,7 @@ html { scrollbar-color: var(--teal) transparent; }
 .report__text .eyebrow { margin-bottom: var(--s-4); }
 .report__title { font-size: clamp(22px, 2.2vw, 28px); font-weight: 600; color: var(--teal); margin-bottom: var(--s-4); }
 .report__text p:not(.eyebrow) { font-size: 15.5px; color: var(--ink-soft); max-width: 44ch; }
+.report__text strong { color: var(--teal); font-weight: 600; }
 .report__mags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6); }
 .mag { display: flex; gap: var(--s-4); align-items: flex-end; text-decoration: none; color: inherit; border-radius: 8px; }
 .mag__cover {

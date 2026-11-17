@@ -153,7 +153,7 @@
 
     "report.eyebrow": "Sustainability magazines",
     "report.t": "Sustainability Actions 2025 / 2026",
-    "report.p": "A detailed look at our programmes with people, teams and the communities where we work. There is one magazine for each company in the group.",
+    "report.p": "These magazines are published by <strong>Cooperativa Generar</strong> and take a detailed look at our programmes with people, teams and the communities where we work. There is one for each company in the group.",
     "report.cusillos.href": "assets/docs/sustainability-magazine-cusillos-2025-2026-en.pdf",
     "report.garmat.href": "assets/docs/sustainability-magazine-garmat-2025-2026-en.pdf",
     "report.cusillos.cover": "assets/img/revista-cusillos-en.jpg",
