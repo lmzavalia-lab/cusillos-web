@@ -87,7 +87,7 @@
 
     "csr.eyebrow": "Social and environmental responsibility",
     "csr.title": "Three pillars frame our work: economic, social and environmental.",
-    "csr.p": "Together with <strong>Cooperativa Generar</strong>, we carry out the following projects:",
+    "csr.p": "For us, producing well also means caring for people and for the places where we work. Together with <strong>Cooperativa Generar</strong>, we run projects that bring farming closer to schools, improve life for our families and protect the environment. Here are some of them:",
 
     "jornadas.photos": "Field Days photos",
     "jornadas.alt": "Secondary school students at a field day",
