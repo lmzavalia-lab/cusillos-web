@@ -265,6 +265,10 @@ html { scrollbar-color: var(--teal) transparent; }
 .intro { row-gap: var(--s-8); align-items: end; }
 .intro__head { grid-column: 1 / span 7; }
 .intro__body { grid-column: 9 / span 4; display: grid; gap: var(--s-4); color: var(--ink-soft); font-size: 16px; line-height: 1.75; padding-bottom: 6px; }
+@media (min-width: 1081px) {
+  .intro--wide .intro__head { grid-column: 1 / span 6; }
+  .intro--wide .intro__body { grid-column: 8 / span 5; }
+}
 
 /* ---------- Pilares ---------- */
 .pillars { padding-block: clamp(56px, 6vw, 88px); }
