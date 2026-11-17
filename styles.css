@@ -422,9 +422,8 @@ html { scrollbar-color: var(--teal) transparent; }
 .cert-card__check { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; fill: none; stroke: var(--orange); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- Compromiso ---------- */
-.compromiso__head { max-width: 760px; margin-bottom: var(--head-gap); }
-.compromiso__note { max-width: 64ch; margin-top: var(--s-5); font-size: 17px; line-height: 1.6; color: var(--ink-soft); }
-.compromiso__note strong { color: var(--teal); font-weight: 600; }
+.compromiso__head { margin-bottom: var(--head-gap); }
+.intro__body strong { color: var(--teal); font-weight: 600; }
 .programs { display: grid; gap: clamp(72px, 9vw, 128px); }
 .program { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: var(--s-8); align-items: center; }
 .program__media { grid-column: 1 / span 7; grid-row: 1; }
