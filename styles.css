@@ -28,8 +28,8 @@
   --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px;
   --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px;
   --s-20: 80px; --s-24: 96px; --s-32: 128px;
-  --section-y: clamp(80px, 10vw, 144px);
-  --band-y: clamp(64px, 8vw, 112px);
+  --section-y: clamp(72px, 8vw, 120px); /* espacio arriba y abajo de cada sección: el mismo en toda la página */
+  --band-y: var(--section-y);
   --head-gap: clamp(48px, 5vw, 72px); /* espacio entre el título de una sección y su contenido */
 
   /* Layout */
@@ -102,6 +102,8 @@ html { scrollbar-color: var(--teal) transparent; }
   column-gap: var(--col-gap);
 }
 .section { padding-block: var(--section-y); }
+/* Dos secciones blancas seguidas: no se suma el espacio dos veces */
+.section + .section { padding-top: 0; }
 .band { padding-block: var(--band-y); color: #fff; }
 .band--teal { background: var(--teal); }
 .band--rust { background: var(--rust); }
@@ -271,7 +273,7 @@ html { scrollbar-color: var(--teal) transparent; }
 }
 
 /* ---------- Pilares ---------- */
-.pillars { padding-block: clamp(56px, 6vw, 88px); }
+.pillars { padding-block: var(--section-y); }
 .pillars__grid { row-gap: var(--s-10); }
 .pillar { grid-column: span 4; padding-right: var(--s-8); }
 .pillar::before {
@@ -686,7 +688,7 @@ html { scrollbar-color: var(--teal) transparent; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---------- Empleo (bloque corto que lleva al formulario) ---------- */
-.jobs { background: var(--paper-warm); padding-block: clamp(56px, 7vw, 96px); }
+.jobs { background: var(--paper-warm); padding-block: var(--section-y); }
 .jobs__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s-8) var(--s-12); flex-wrap: wrap; }
 .jobs__text { flex: 1 1 520px; max-width: 720px; }
 .jobs__text .h2 { margin-bottom: var(--s-4); }
