@@ -43,7 +43,7 @@
     "pillars.3.p": "We adopt new technologies and keep improving our processes.",
 
     "mv.label": "Mission and vision",
-    "mv.alt": "Cusillos agronomists inspecting a crop in the field",
+    "mv.alt": "Cusillos team in a soybean field",
     "mv.mission": "Mission",
     "mv.mission.lead": "We create value.",
     "mv.mission.p": "Our purpose is to create economic, social and environmental value through continuous improvement and innovation. We create opportunities for our community, building a company able to evolve and last for generations.",

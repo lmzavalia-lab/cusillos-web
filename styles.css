@@ -287,7 +287,7 @@ html { scrollbar-color: var(--teal) transparent; }
 /* ---------- Misión / Visión ---------- */
 .mv { display: grid; grid-template-columns: 1fr 1fr; }
 .mv__media { position: relative; overflow: hidden; min-height: 420px; }
-.mv__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% center; }
+.mv__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
 .mv__panels { display: grid; grid-template-rows: 1fr 1fr; }
 .mv__panel {
   display: flex; flex-direction: column; justify-content: center;
