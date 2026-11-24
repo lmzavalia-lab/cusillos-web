@@ -637,7 +637,9 @@ html { scrollbar-color: var(--teal) transparent; }
 }
 @media (max-width: 860px) {
   .showcase { grid-template-columns: 1fr; gap: var(--s-8); }
-  .showcase__stage { position: relative; top: auto; order: -1; border-radius: 16px; }
+  /* En celular la foto queda fija arriba mientras se leen los proyectos, así acompaña al que está activo */
+  .showcase__stage { top: calc(var(--header-h) + 12px); z-index: 4; order: -1; border-radius: 16px;
+    box-shadow: 0 -12px 0 0 var(--paper), 0 -12px 0 12px var(--paper), 0 24px 48px -24px rgba(0,44,51,0.35); }
   .showcase__item { padding: var(--s-5) 0 var(--s-5) var(--s-6); }
 }
 @media (max-width: 600px) {
