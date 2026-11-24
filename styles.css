@@ -640,6 +640,13 @@ html { scrollbar-color: var(--teal) transparent; }
   .showcase__stage { position: relative; top: auto; order: -1; border-radius: 16px; }
   .showcase__item { padding: var(--s-5) 0 var(--s-5) var(--s-6); }
 }
+@media (max-width: 600px) {
+  /* En celular el nombre ya está debajo de la foto: la etiqueta muestra solo el número */
+  .showcase__chip { left: var(--s-4); bottom: var(--s-4); padding: 0 14px; height: 44px; }
+  .showcase__chip [data-showcase-name] { display: none; }
+  .showcase__chip [data-showcase-count] { padding-right: 0; border-right: 0; }
+  .showcase__nav { right: var(--s-4); bottom: var(--s-4); }
+}
 
 /* ---------- Contacto ---------- */
 .contact { padding-block: var(--section-y); }
