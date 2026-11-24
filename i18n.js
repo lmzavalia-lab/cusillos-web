@@ -31,7 +31,7 @@
 
     "about.group": "Cusillos and Garmat",
     "about.title": "We are an agribusiness that creates opportunities for the sustainable growth of its shareholders and its community.",
-    "about.p1": "Founded in 1997 by a group of agronomists, Cusillos SA now operates with a professional board and stable teams in each production area.",
+    "about.p1": "Founded in 1997 by a group of agronomists, today we operate with a professional board and stable teams in each production area.",
     "about.p2": "We see farming as a long-term business: in the short term the risk is high; in the long term, it tends toward zero.",
 
     "pillars.label": "Who we are",
