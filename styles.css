@@ -650,6 +650,7 @@ html { scrollbar-color: var(--teal) transparent; }
 .contact__list li { display: flex; align-items: center; gap: var(--s-4); }
 .contact__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--on-dark-line); transition: border-color 200ms var(--ease-out), background-color 200ms var(--ease-out); }
 .contact__icon .icon { stroke: var(--gold); }
+.contact__icon .icon__fill { fill: var(--gold); stroke: none; }
 .contact__list small { display: block; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-dark-soft); line-height: 1.4; }
 .contact__list a { font-size: 17px; text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 320ms var(--ease-out), color 200ms; }
 @media (hover: hover) and (pointer: fine) {
